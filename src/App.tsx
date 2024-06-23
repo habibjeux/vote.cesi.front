@@ -1,9 +1,7 @@
-function App() {
+export default function Home() {
   return (
-    <>
-      <p className="text-blue-500 h-20 bg-accent text-white">Hello</p>
-    </>
+    <div className="flex flex-col items-center justify-center h-screen">
+      Home
+    </div>
   );
 }
-
-export default App;

@@ -1,6 +1,7 @@
 import React from 'react'
 
 function Resultat() {
+  console.log()
   return (
     <div className='	background-color: rgb(243 244 246)'>
       

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useOutletContext } from 'react-router-dom'; // Import the hook
+import { useOutletContext } from 'react-router-dom'; 
 
 import icone from "../../assets/icone_vote.png";
 import ImageDeco from './components/ImageDeco';
 
 function Candidature() {
-  const { student } = useOutletContext(); // Access the student context
+  const { student } = useOutletContext();
   const { register, handleSubmit, reset, formState: { errors } } = useForm(); 
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(null);

@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import ImageDeco from "./components/ImageDeco";
 import Poste from "./components/Poste";
 import CandidatVote from "./components/CandidatVote";
 import icone from "../../assets/icone_vote.png";
+import visuel from "../../assets/visuel.png";
 
 function Vote() {
   const { student } = useOutletContext();
   const [postes, setPoste] = useState([]);
   const [selectedPosteId, setSelectedPosteId] = useState(null);
+  const candidatVoteRef = useRef(null);
 
   const search = async () => {
     try {
-      const response = await fetch('http://localhost:9090/roles');
+      const response = await fetch("http://localhost:9090/roles");
       const data = await response.json();
       setPoste(data);
     } catch (error) {
@@ -23,6 +24,14 @@ function Vote() {
   useEffect(() => {
     search();
   }, []);
+
+  useEffect(() => {
+    if (selectedPosteId && candidatVoteRef.current) {
+      setTimeout(() => {
+        candidatVoteRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [selectedPosteId]);
 
   const handlePosteClick = (id) => {
     console.log(`Poste cliqué : ${id}`);
@@ -36,15 +45,23 @@ function Vote() {
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voter</p>
           {postes.map((unPoste) => (
-            <Poste unPoste={unPoste} key={unPoste.id} onClick={handlePosteClick} />
+            <Poste
+              unPoste={unPoste}
+              key={unPoste.id}
+              onClick={handlePosteClick}
+            />
           ))}
         </div>
-        <ImageDeco />
+        <img className="h-80" src={visuel} alt="visuel" />
       </div>
       {selectedPosteId && (
-          <CandidatVote student={student} idPoste={selectedPosteId}/>
+        <div
+          className="flex justify-center flex-row flex-wrap"
+          ref={candidatVoteRef}
+        >
+          <CandidatVote student={student} idPoste={selectedPosteId} />
+        </div>
       )}
-    
     </div>
   );
 }

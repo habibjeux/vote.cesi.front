@@ -27,32 +27,23 @@ function Candidature() {
   }, []);
 
   const onSubmit = async (data) => {
-    const candidateData = {
-      ...data,
-      student: {
-        id: student.id,
-        nce: student.nce,
-        firstName: student.firstName,
-        lastName: student.lastName,
-        email: student.email,
-      },
-    };
+    const formData = new FormData();
+    formData.append('student_id', student.id);
+    formData.append('role_id', data.roleId);
+    formData.append('program', data.program);
+    formData.append('photo', data.photo[0]);
 
     try {
-      const response = await fetch('http://localhost:9090/cesi', {
+      const response = await fetch('http://localhost:9090/cesi/candidates', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(candidateData),
+        body: formData,
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(JSON.stringify(candidateData)); 
         throw new Error('Erreur soumission ' + (errorData.message || 'Unknown error'));
       }
-  
+
       setSubmitSuccess("Votre candidature est soumise avec succès");
       setSubmitError(null);
       reset(); 
@@ -64,26 +55,27 @@ function Candidature() {
 
   return (
     <div className='flex'>
-      <ImageDeco/>
+      <ImageDeco />
       <div className="mx-auto flex flex-col justify-center items-center">
         <img className="w-24" src={icone} alt="icone vote" />
         <p className='text-green-600 text-xl font-bold my-2'>
           Veuillez remplir le formulaire pour candidater à un poste!
         </p>
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 p-8 rounded-lg shadow-lg w-96">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 p-8 rounded-lg shadow-lg w-96" encType="multipart/form-data">
           <div className="form-group flex flex-col mb-4">
             <label className="text-blue-600">Role</label>
-            <select {...register('role.id', { required: 'Role is required' })} className="p-4 rounded-lg">
+            <select {...register('roleId', { required: 'Role is required' })} className="p-4 rounded-lg">
               <option value="">Select a role</option>
               {roles.map((role) => (
                 <option key={role.id} value={role.id}>{role.title}</option>
               ))}
             </select>
-            {errors.role?.id && <span className="text-red-500">{errors.role.id.message}</span>}
+            {errors.roleId && <span className="text-red-500">{errors.roleId.message}</span>}
           </div>
           <div className="form-group flex flex-col mb-4">
-            <label className="text-blue-600">Photo URL</label>
-            <input {...register('photoURL')} className="p-4 rounded-lg" />
+            <label className="text-blue-600">Photo</label>
+            <input type="file" {...register('photo', { required: 'Photo is required' })} className="p-4 rounded-lg" />
+            {errors.photo && <span className="text-red-500">{errors.photo.message}</span>}
           </div>
           <div className="form-group flex flex-col mb-4">
             <label className="text-blue-600">Program</label>

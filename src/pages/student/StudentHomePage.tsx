@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import CESI from "../../assets/CESI.png";
 import { Link, Outlet } from "react-router-dom";
 function StudentHomePage() {
@@ -9,12 +9,14 @@ function StudentHomePage() {
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const response = await fetch(`http://localhost:9090/student/${studentId}`);
+        const response = await fetch(
+          `http://localhost:9090/student/${studentId}`
+        );
         const data = await response.json();
         setStudent(data);
-        console.log('student:', data);
+        console.log("student:", data);
       } catch (error) {
-        console.error('Error fetching student:', error);
+        console.error("Error fetching student:", error);
       }
     };
 
@@ -23,10 +25,9 @@ function StudentHomePage() {
 
   return (
     <section className="h-screen">
-      
       <header className="flex  justify-around items-center">
         <p>
-          <img src={CESI} width={80} height={80} alt="Logo de CESI"/>
+          <img src={CESI} width={80} height={80} alt="Logo de CESI" />
         </p>
         <h1 className="text-3xl font-bold text-accents">Election CESI</h1>
         <nav>

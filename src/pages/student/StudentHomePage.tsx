@@ -3,7 +3,7 @@ import CESI from "../../assets/CESI.png";
 import { Link, Outlet } from "react-router-dom";
 function StudentHomePage() {
   const [count, setCount] = useState(0);
-  const studentId = 123456;
+  const studentId = 46884;
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function StudentHomePage() {
         );
         const data = await response.json();
         setStudent(data);
-        console.log("student:", data);
+        console.log("studentdjj:", data);
       } catch (error) {
         console.error("Error fetching student:", error);
       }

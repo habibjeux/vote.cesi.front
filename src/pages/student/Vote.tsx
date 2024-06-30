@@ -56,7 +56,7 @@ function Vote() {
       </div>
       {selectedPosteId && (
         <div
-          className="flex justify-center flex-row flex-wrap"
+          className="flex justify-center flex-row  flex-wrap w-full items-center"
           ref={candidatVoteRef}
         >
           <CandidatVote student={student} idPoste={selectedPosteId} />

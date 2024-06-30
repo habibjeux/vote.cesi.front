@@ -4,11 +4,26 @@ import Poste from "./components/Poste";
 import icone from "../../assets/icone_vote.png";
 import resultat from "../../assets/resultatselections.png";
 import ResultatVote from "./components/ResultatVote";
+
+interface Student {
+  id: number;
+  nce: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  class_id: number | null;
+}
+
+interface Poste {
+  id: number;
+  title: string;
+}
+
 function Resultat() {
-  const { student } = useOutletContext();
-  const [postes, setPoste] = useState([]);
-  const [selectedPosteId, setSelectedPosteId] = useState(null);
-  const candidatVoteRef = useRef(null);
+  const { student } = useOutletContext<{ student: Student }>();
+  const [postes, setPoste] = useState<Poste[]>([]);
+  const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
+  const candidatVoteRef = useRef<HTMLDivElement>(null);
 
   const search = async () => {
     try {
@@ -32,14 +47,14 @@ function Resultat() {
     }
   }, [selectedPosteId]);
 
-  const handlePosteClick = (id) => {
+  const handlePosteClick = (id: number) => {
     console.log(`Poste cliqué : ${id}`);
     setSelectedPosteId(id);
   };
-  console.log();
+
   return (
-    <div>
-      <div className="flex justify-center">
+    <div className="">
+      <div className="flex justify-center items-center">
         <div className="flex flex-col w-1/2 justify-center items-center">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voir la resulat</p>
@@ -47,18 +62,19 @@ function Resultat() {
             <Poste
               unPoste={unPoste}
               key={unPoste.id}
-              onClick={handlePosteClick}
+              onClick={() => handlePosteClick(unPoste.id)}
             />
           ))}
         </div>
         <img className="h-80" src={resultat} alt="visuel" />
       </div>
-      {selectedPosteId && (
+      {selectedPosteId !== null && (
         <div
-          className="flex justify-center flex-row flex-wrap"
+          className="flex  flex-col justify-center items-center"
           ref={candidatVoteRef}
         >
-          <ResultatVote />
+          <p className=" font-bold text-4xl text-primary">Resultat du vote</p>
+          <ResultatVote idPoste={selectedPosteId} />
         </div>
       )}
     </div>

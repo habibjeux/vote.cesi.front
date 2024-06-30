@@ -1,20 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import ImageDeco from "./components/ImageDeco";
 import icone from "../../assets/icone_vote.png";
+import useScreenSize from "./Hook/useScreenSize";
+
 function Home() {
+  const windowSize = useScreenSize(); 
+
   return (
-    <div className="flex">
-      <ImageDeco />
-      <div className="flex flex-col justify-center items-center w-1/2  font-bold text-lg">
-        <p className="my-2">Bienvenue dans votre espace de vote electronique</p>
+    <div className="flex  justify-center">
+      {windowSize.width > 800 ? <ImageDeco /> : <div></div>}
+      <div className="flex flex-col justify-center items-center w-1/2 font-bold text-lg">
+        <p className="my-2">Bienvenue dans votre espace de vote électronique</p>
         <div
           className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
           role="alert"
         >
-          <span className="font-medium">important!</span> le vote se deroulra le 29
-          juin de 9h a 18h.
+          <span className="font-medium">important!</span> le vote se déroulera le 29
+          juin de 9h à 18h.
         </div>
         <Link
           to="/student/vote"

@@ -4,6 +4,7 @@ import Poste from "./components/Poste";
 import icone from "../../assets/icone_vote.png";
 import resultat from "../../assets/resultatselections.png";
 import ResultatVote from "./components/ResultatVote";
+import useScreenSize from "./Hook/useScreenSize";
 
 interface Student {
   id: number;
@@ -24,6 +25,7 @@ function Resultat() {
   const [postes, setPoste] = useState<Poste[]>([]);
   const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
   const candidatVoteRef = useRef<HTMLDivElement>(null);
+  const windowSize = useScreenSize(); 
 
   const search = async () => {
     try {
@@ -66,7 +68,9 @@ function Resultat() {
             />
           ))}
         </div>
+        {windowSize.width > 800 && 
         <img className="h-80" src={resultat} alt="visuel" />
+}
       </div>
       {selectedPosteId !== null && (
         <div

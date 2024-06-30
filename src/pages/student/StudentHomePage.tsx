@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import CESI from "../../assets/CESI.png";
 import { Link, Outlet } from "react-router-dom";
+import useScreenSize from "./Hook/useScreenSize";
 function StudentHomePage() {
   const [count, setCount] = useState(0);
   const studentId = 46884;
   const [student, setStudent] = useState(null);
-
+  const windowSize = useScreenSize(); 
   useEffect(() => {
     const fetchStudent = async () => {
       try {
@@ -29,7 +30,9 @@ function StudentHomePage() {
         <p>
           <img src={CESI} width={80} height={80} alt="Logo de CESI" />
         </p>
-        <h1 className="text-3xl font-bold text-accents">Election CESI</h1>
+        <h1 className="text-3xl font-bold text-accents">
+  {windowSize.width > 800 ? "Election CESI" : ""}
+</h1>
         <nav>
           <ul className="flex gap-3 items-center">
             <li className="text-primary   text-lg font-bold">

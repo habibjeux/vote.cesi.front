@@ -4,12 +4,14 @@ import Poste from "./components/Poste";
 import CandidatVote from "./components/CandidatVote";
 import icone from "../../assets/icone_vote.png";
 import visuel from "../../assets/visuel.png";
+import useScreenSize from "./Hook/useScreenSize";
 
 function Vote() {
   const { student } = useOutletContext();
   const [postes, setPoste] = useState([]);
   const [selectedPosteId, setSelectedPosteId] = useState(null);
   const candidatVoteRef = useRef(null);
+  const windowSize = useScreenSize(); 
 
   const search = async () => {
     try {
@@ -51,8 +53,8 @@ function Vote() {
               onClick={handlePosteClick}
             />
           ))}
-        </div>
-        <img className="h-80" src={visuel} alt="visuel" />
+        </div> {windowSize.width > 800 && 
+        <img className="h-80" src={visuel} alt="visuel" />}
       </div>
       {selectedPosteId && (
         <div

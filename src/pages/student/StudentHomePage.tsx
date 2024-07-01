@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
-// Importez l'icône de menu
 import CESI from "../../assets/CESI.png";
 import useScreenSize from "./Hook/useScreenSize";
 
 function StudentHomePage() {
   const [count, setCount] = useState(0);
-  const studentId = 46884;
+  const studentId = 1;
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
-  const [menuOpen, setMenuOpen] = useState(false); // État pour le menu déroulant
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchStudent = async () => {

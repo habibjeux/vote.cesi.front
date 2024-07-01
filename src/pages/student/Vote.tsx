@@ -11,7 +11,7 @@ function Vote() {
   const [postes, setPoste] = useState([]);
   const [selectedPosteId, setSelectedPosteId] = useState(null);
   const candidatVoteRef = useRef(null);
-  const windowSize = useScreenSize(); 
+  const windowSize = useScreenSize();
 
   const search = async () => {
     try {
@@ -53,8 +53,10 @@ function Vote() {
               onClick={handlePosteClick}
             />
           ))}
-        </div> {windowSize.width > 800 && 
-        <img className="h-80" src={visuel} alt="visuel" />}
+        </div>{" "}
+        {windowSize.width > 800 && (
+          <img className="h-80" src={visuel} alt="visuel" />
+        )}
       </div>
       {selectedPosteId && (
         <div

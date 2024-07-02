@@ -9,16 +9,17 @@ import { OutletContext } from "./type/Type";
 interface PosteType {
   id: number;
   title: string;
- 
 }
 
 function Vote() {
   const { student } = useOutletContext<OutletContext>();
   const [postes, setPoste] = useState<PosteType[]>([]);
   const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
-  const [selectedPosteName, setSelectedPosteName] = useState<string | null>(null);
+  const [selectedPosteName, setSelectedPosteName] = useState<string | null>(
+    null
+  );
   const candidatVoteRef = useRef<HTMLDivElement>(null);
-  const windowSize = useScreenSize(); 
+  const windowSize = useScreenSize();
 
   const search = async () => {
     try {
@@ -42,10 +43,10 @@ function Vote() {
     }
   }, [selectedPosteId]);
 
-  const handlePosteClick = (id:number,name:string) => {
+  const handlePosteClick = (id: number, name: string) => {
     console.log(`Poste cliqué : ${id}`);
     setSelectedPosteId(id);
-    setSelectedPosteName(name)
+    setSelectedPosteName(name);
   };
 
   return (
@@ -56,21 +57,26 @@ function Vote() {
           <p className="text-xl">Choisir la poste pour voter</p>
           {postes.map((unPoste) => (
             <Poste
-            unPoste={unPoste}
-            key={unPoste.id}
-            onClick={() => handlePosteClick(unPoste.id, unPoste.title)}
-          />
+              unPoste={unPoste}
+              key={unPoste.id}
+              onClick={() => handlePosteClick(unPoste.id, unPoste.title)}
+            />
           ))}
-        </div> {windowSize.width > 800 && 
-        <img className="h-80" src={visuel} alt="visuel" />}
+        </div>{" "}
+        {windowSize.width > 800 && (
+          <img className="h-80" src={visuel} alt="visuel" />
+        )}
       </div>
       {selectedPosteId && (
         <div
           className="flex justify-center flex-row  flex-wrap w-full items-center"
           ref={candidatVoteRef}
         >
-          
-          <CandidatVote student={student} idPoste={selectedPosteId}    name={selectedPosteName || ""} />
+          <CandidatVote
+            student={student}
+            idPoste={selectedPosteId}
+            name={selectedPosteName || ""}
+          />
         </div>
       )}
     </div>

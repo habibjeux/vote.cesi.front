@@ -23,7 +23,7 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
   }, [idPoste]);
 
   return (
-    <div className="p-6 bg-gray-100 w-2/3">
+    <div className="p-6 bg-orange-50 w-2/3">
       {results.length > 0 ? (
         <div className="space-y-4">
           {results.map(({ candidateId, candidate, voteCount }) => (
@@ -42,7 +42,7 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
                   <h2 className="text-xl font-semibold">
                     {candidate?.student.firstName} {candidate?.student.lastName}
                   </h2>
-                  <p className="text-gray-600">Votes: {voteCount}</p>
+                  <p className="text-gray-600">Votes:<span className=" text-green-700 font-bold text-2xl mx-1">{voteCount}</span></p>
                 </div>
               </div>
             </div>

@@ -5,7 +5,7 @@ import useScreenSize from "./Hook/useScreenSize";
 
 function StudentHomePage() {
   const [count, setCount] = useState(0);
-  const studentId = 2;
+  const studentId = 1;
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);

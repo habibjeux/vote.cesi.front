@@ -49,7 +49,7 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-500">No results found.</p>
+        <p className="text-center text-red-500   font-bold">Le resultats pour ce post ne sont pas encore disponibles.</p>
       )}
     </div>
   );

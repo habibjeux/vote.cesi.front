@@ -129,14 +129,14 @@ function Candidature() {
       <ImageDeco />
 
       {candidate.status === "success" ? (
-        <div className="mx-auto flex flex-col justify-center items-center">
+        <div className="mx-auto flex flex-col  items-center ">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-green-600 text-xl font-bold my-2">
             Veuillez remplir le formulaire pour candidater à un poste!
           </p>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-gray-300 p-8 rounded-lg shadow-lg w-96"
+            className="bg-gray-300 p-8 rounded-lg shadow-lg w-96  h-3/4"
             encType="multipart/form-data"
           >
             <div className="form-group flex flex-col mb-4">

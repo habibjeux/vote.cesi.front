@@ -51,8 +51,8 @@ function Vote() {
 
   return (
     <div>
-      <div className="flex justify-center">
-        <div className="flex flex-col w-1/2 justify-center items-center">
+      <div className="flex justify-center items-start">
+        <div className="flex flex-col w-1/2 justify-center items-center my-2">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voter</p>
           {postes.map((unPoste) => (
@@ -62,10 +62,30 @@ function Vote() {
               onClick={() => handlePosteClick(unPoste.id, unPoste.title)}
             />
           ))}
-        </div>{" "}
-        {windowSize.width > 800 && (
-          <img className="h-80" src={visuel} alt="visuel" />
+           {windowSize.width > 800 && (
+          <img className="h-72" src={visuel} alt="visuel" />
         )}
+        </div>
+        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center p-8 bg-blue-100 rounded-lg shadow-md max-w-lg mx-auto">
+  <h1 className="text-3xl font-bold text-blue-600 mb-4">Exercez votre droit de vote !</h1>
+  <p className="text-lg text-blue-800 mb-6">
+    Votre vote compte ! Participez à la construction de l'avenir de notre école. Chaque vote est important et votre voix mérite d'être entendue. Faites la différence en participant au processus électoral.
+  </p>
+  <p className="text-lg text-blue-800 mb-6">
+    Voter est un droit et une responsabilité fondamentale. C’est votre opportunité de choisir les dirigeants qui vous représenteront et défendront vos intérêts. Ne manquez pas cette chance de vous exprimer !
+  </p>
+  <p className="text-lg text-blue-800 mb-6">
+    Rendez-vous aux bureaux de vote aujourd'hui et faites entendre votre voix. Ensemble, nous pouvons créer un avenir meilleur pour notre communauté scolaire.
+  </p>
+  <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+    Votez maintenant
+  </button>
+</div>
+
+       
+        </div>
+        
       </div>
       {selectedPosteId && (
         <div

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Candidate, Student } from "../type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
+import { Candidate, Student } from "../type/Type"; 
 
 interface CandidatVoteProps {
   student: Student;

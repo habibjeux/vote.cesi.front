@@ -44,7 +44,7 @@ function Resultat() {
   useEffect(() => {
     if (selectedPosteId && candidatVoteRef.current) {
       setTimeout(() => {
-        candidatVoteRef.current.scrollIntoView({ behavior: "smooth" });
+        candidatVoteRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 100);
     }
   }, [selectedPosteId]);

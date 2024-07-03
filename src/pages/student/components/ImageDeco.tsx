@@ -1,4 +1,3 @@
-import React from 'react'
 import logoucad from '../../../assets/ucad.jpeg'; 
 import deventure from '../../../assets/section.jpg'; 
 

@@ -4,7 +4,6 @@ import CESI from "../../assets/CESI.png";
 import useScreenSize from "./Hook/useScreenSize";
 
 function StudentHomePage() {
-  const [count, setCount] = useState(0);
   const studentId = 2;
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();

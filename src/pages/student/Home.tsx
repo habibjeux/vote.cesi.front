@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import ImageDeco from "./components/ImageDeco";
 import icone from "../../assets/icone_vote.png";

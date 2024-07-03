@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import  { useEffect, useState, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import Poste from "./components/Poste";
 import icone from "../../assets/icone_vote.png";

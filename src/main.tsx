@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import HomePage from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -30,6 +29,8 @@ import Home from "./pages/student/Home.tsx";
 import Vote from "./pages/student/Vote.tsx";
 import Candidature from "./pages/student/Candidature.tsx";
 import Resultat from "./pages/student/Resultat.tsx";
+import ChangeStatusCandidatesPage from "./pages/admin/candidates/changeStatus/changeStatus.tsx";
+import AdminCandidatesLayout from "./pages/admin/candidates/layout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -124,7 +125,17 @@ const router = createBrowserRouter([
       },
       {
         path: "candidates",
-        element: <CandidatesHomePage />,
+        element: <AdminCandidatesLayout />,
+        children: [
+          {
+            path: "",
+            element: <CandidatesHomePage />,
+          },
+          {
+            path: "changeStatus/:id",
+            element: <ChangeStatusCandidatesPage />,
+          },
+        ],
       },
       {
         path: "results",
@@ -157,7 +168,5 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );

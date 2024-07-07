@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useLocation, Link, Outlet, useNavigate } from "react-router-dom";
+
 import CESI from "../../assets/CESI.png";
 import useScreenSize from "./Hook/useScreenSize";
+import { Student } from "../../types/student.type";
 
 function StudentHomePage() {
+  const navigate = useNavigate();
   const [count, setCount] = useState(0);
-  const studentId = 2;
+  const location = useLocation();
+  const user: Student = location.state?.user;
+  const [studentId, setStudentId] = useState(user?.id);
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    if (!studentId) navigate("/login");
     const fetchStudent = async () => {
       try {
         const response = await fetch(

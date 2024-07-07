@@ -23,7 +23,7 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
   }, [idPoste]);
 
   return (
-    <div className="p-6 bg-orange-50 w-2/3">
+    <div className="p-6 bg-blue-100 w-2/3">
       {results.length > 0 ? (
         <div className="space-y-4">
           {results.map(({ candidateId, candidate, voteCount }) => (

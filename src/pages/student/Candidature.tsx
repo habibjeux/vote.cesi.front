@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import icone from "../../assets/icone_vote.png";
 import ImageDeco from "./components/ImageDeco";
-import { Candidate, Role, Student } from "./type/Type";
+import { Candidate, CandidateResponse, Role, Student } from "./type/Type";
 
 interface FormData {
   roleId: number;
@@ -13,6 +13,7 @@ interface FormData {
 
 function Candidature() {
   const { student } = useOutletContext<{ student: Student }>();
+
   const {
     register,
     handleSubmit,
@@ -23,6 +24,8 @@ function Candidature() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [candidate, setCandidate] = useState<Candidate[]>([]);
+  const [candidateResponse, setCandidateResponses] =
+    useState<CandidateResponse>();
   const [studentCurrent, setRoleStudentCurrent] = useState<Student | null>(
     student
   );
@@ -34,6 +37,7 @@ function Candidature() {
       );
       const dataCandidat = await candidateResponse.json();
       setCandidate(dataCandidat);
+      setCandidateResponses(dataCandidat);
     } catch (error) {
       console.error("Erreur lors de la mise à jour du candidat:", error);
     }
@@ -48,7 +52,6 @@ function Candidature() {
         throw new Error("Erreur lors de la suppression de la candidature");
       }
 
-      console.log("Candidature annulée avec succès");
       miseAJour();
     } catch (error) {
       console.error("Erreur lors de l'annulation de la candidature:", error);
@@ -66,13 +69,11 @@ function Candidature() {
         const data = await response.json();
         const dataCandidat = await candidateResponse.json();
 
+        setCandidateResponses(dataCandidat);
+        console.log(candidateResponse);
+
         setRoles(data);
         setCandidate(dataCandidat);
-        console.log(
-          `http://localhost:9090/cesi/student/${student.id}` +
-            candidate[0].role.title +
-            "dj"
-        );
       } catch (error) {
         console.error("Erreur:", error);
       }
@@ -128,7 +129,7 @@ function Candidature() {
     <div className="flex">
       <ImageDeco />
 
-      {candidate.status === "success" ? (
+      {candidateResponse?.status === "success" ? (
         <div className="mx-auto flex flex-col justify-center items-center">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-green-600 text-xl font-bold my-2">

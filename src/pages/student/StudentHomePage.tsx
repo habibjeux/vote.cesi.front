@@ -6,11 +6,8 @@ import useScreenSize from "./Hook/useScreenSize";
 import { Student } from "../../types/student.type";
 
 function StudentHomePage() {
-  const navigate = useNavigate();
   const [count, setCount] = useState(0);
-  const location = useLocation();
-  const user: Student = location.state?.user;
-  const [studentId, setStudentId] = useState(user?.id);
+  const studentId = 2;
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);

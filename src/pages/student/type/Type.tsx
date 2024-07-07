@@ -48,3 +48,8 @@ export interface Candidate {
   export interface OutletContext {
     student: Student;
   }
+
+  export interface CandidateResponse {
+    message: string;
+    status: string;
+  }

@@ -20,6 +20,7 @@ function Vote() {
   );
   const candidatVoteRef = useRef<HTMLDivElement>(null);
   const windowSize = useScreenSize();
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const search = async () => {
     try {
@@ -27,7 +28,7 @@ function Vote() {
       const data = await response.json();
       setPoste(data);
     } catch (error) {
-      console.log(error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
     }
   };
 
@@ -55,6 +56,12 @@ function Vote() {
         <div className="flex flex-col w-1/2  items-center">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voter</p>
+          {connectionError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">Erreur de connexion !</strong>
+          <span className="block sm:inline"> {connectionError}</span>
+        </div>
+      )}
           {postes.map((unPoste) => (
             <Poste
               unPoste={unPoste}

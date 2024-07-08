@@ -14,6 +14,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
   const [modalTitle, setModalTitle] = useState("");
   const [voteCandidateId, setVoteCandidateId] = useState<number | null>(null);
   const [isStudentVotedRole, setIsStudentVotedRole] = useState<boolean>(false);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const fetchCandidates = async () => {
     try {
@@ -33,7 +34,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
         setIsStudentVotedRole(false);
       }
     } catch (error) {
-      console.log(error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
     }
   };
 
@@ -57,7 +58,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
-      console.log("Error voting:", error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
     } finally {
@@ -84,9 +85,16 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
 
   return (
     <div className="bg-blue-100 w-11/12 rounded-lg">
+      
       <p className="font-bold text-4xl text-primary text-center my-2">
         Vote poste {name}
       </p>
+      {connectionError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">Erreur de connexion !</strong>
+          <span className="block sm:inline"> {connectionError}</span>
+        </div>
+      )}
       {isStudentVotedRole && (
         <div className="bg-red-200 text-red-700 text-center p-4 mb-4 rounded-lg">
           Vous avez déjà voté pour ce poste.

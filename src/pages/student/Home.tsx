@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import ImageDeco from "./components/ImageDeco";
 import icone from "../../assets/icone_vote.png";
 import useScreenSize from "./Hook/useScreenSize";
+import { useState } from "react";
 
 function Home() {
   const windowSize = useScreenSize(); 
-
+  const [connectionError, setConnectionError] = useState<string | null>(null);
   return (
     <div className="flex  justify-center">
       {windowSize.width > 800 ? <ImageDeco /> : <div></div>}

@@ -9,7 +9,7 @@ function StudentHomePage() {
   const navigate = useNavigate();
   const location = useLocation();
   const studentId = location.state?.user.id;
-  const [student, setStudent] = useState(null);
+  const [student, setStudent] = useState<Student | null>(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {

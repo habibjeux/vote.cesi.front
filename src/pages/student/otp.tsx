@@ -4,14 +4,14 @@ import {
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "../../../components/ui/input-otp";
-import { Student } from "../../../types/student.type";
-import { Otp } from "../../../types/otp.type";
+} from "../../components/ui/input-otp";
+import { Student } from "../../types/student.type";
+import { Otp } from "../../types/otp.type";
 import { FormEvent, useEffect, useState } from "react";
-import { getOtpByStudent } from "../../../services/otps.service";
+import { getOtpByStudent } from "../../services/otps.service";
 import axios from "axios";
-import { Button } from "../../../components/ui/button";
-import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 
 export default function OTPPage() {
   const navigate = useNavigate();
@@ -56,8 +56,11 @@ export default function OTPPage() {
     if (otp?.code === value) {
       navigate("/student", { state: { user: user } });
     }
-    if (new Date(otp?.expiryDate).getTime() < new Date().getTime()) {
-      setError("Code expiré! Veuillez en générer un autre.");
+    if (otp?.expiryDate != null) {
+      const expiryDate = new Date(otp?.expiryDate);
+      if (expiryDate.getTime() < new Date().getTime()) {
+        setError("Code expiré! Veuillez en générer un autre.");
+      }
     }
     if (otp?.code !== value) {
       setError("Code incorrect");

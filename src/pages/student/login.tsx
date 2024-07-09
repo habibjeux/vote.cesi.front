@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
-import { LoginCredentials } from "../types/auth.type";
-import { login } from "../services/login.service";
+import { Badge } from "../../components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { LoginCredentials } from "../../types/auth.type";
+import { login } from "../../services/login.service";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Student } from "../types/student.type";
+import { Student } from "../../types/student.type";
 
 export default function LoginPage() {
   const navigate = useNavigate();

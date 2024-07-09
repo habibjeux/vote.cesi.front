@@ -31,6 +31,7 @@ import Candidature from "./pages/student/Candidature.tsx";
 import Resultat from "./pages/student/Resultat.tsx";
 import ChangeStatusCandidatesPage from "./pages/admin/candidates/changeStatus/changeStatus.tsx";
 import AdminCandidatesLayout from "./pages/admin/candidates/layout.tsx";
+import InfosCandidatesPage from "./pages/admin/candidates/infos/infos.tsx";
 
 const router = createBrowserRouter([
   {
@@ -130,6 +131,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <CandidatesHomePage />,
+          },
+          {
+            path: ":id",
+            element: <InfosCandidatesPage />,
           },
           {
             path: "changeStatus/:id",

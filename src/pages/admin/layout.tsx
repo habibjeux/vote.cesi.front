@@ -71,13 +71,13 @@ export default function AdminLayout() {
               },
             ]}
           />
+          <Button
+            className="hidden md:block absolute -right-5 top-1/2 -translate-y-1/2 p-2 bg-primary text-white rounded-full shadow-lg"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+          >
+            {isCollapsed ? <CogIcon /> : <ArrowBigLeft />}
+          </Button>
         </TooltipProvider>
-        <Button
-          className="hidden md:block absolute -right-5 top-1/2 -translate-y-1/2 p-2 bg-primary text-white rounded-full shadow-lg"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? <CogIcon /> : <ArrowBigLeft />}
-        </Button>
       </div>
       <main className="overflow-hidden border bg-background shadow w-full md:px-8 md:py-8">
         <Outlet />

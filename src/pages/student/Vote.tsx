@@ -20,6 +20,7 @@ function Vote() {
   );
   const candidatVoteRef = useRef<HTMLDivElement>(null);
   const windowSize = useScreenSize();
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const search = async () => {
     try {
@@ -27,7 +28,7 @@ function Vote() {
       const data = await response.json();
       setPoste(data);
     } catch (error) {
-      console.log(error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
     }
   };
 
@@ -52,9 +53,15 @@ function Vote() {
   return (
     <div>
       <div className="flex justify-center items-start">
-        <div className="flex flex-col w-1/2 justify-center items-center my-2">
+        <div className="flex flex-col w-1/2  items-center">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voter</p>
+          {connectionError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">Erreur de connexion !</strong>
+          <span className="block sm:inline"> {connectionError}</span>
+        </div>
+      )}
           {postes.map((unPoste) => (
             <Poste
               unPoste={unPoste}
@@ -63,12 +70,12 @@ function Vote() {
             />
           ))}
            {windowSize.width > 800 && (
-          <img className="h-72" src={visuel} alt="visuel" />
+          <img className="h-72 mb-2" src={visuel} alt="visuel"  />
         )}
         </div>
         <div className="flex flex-col">
         <div className="flex flex-col items-center justify-center p-8 bg-blue-100 rounded-lg shadow-md max-w-lg mx-auto">
-  <h1 className="text-3xl font-bold text-blue-600 mb-4">Exercez votre droit de vote !</h1>
+  <h1 className="text-3xl font-bold text-primary mb-4">Exercez votre droit de vote !</h1>
   <p className="text-lg text-blue-800 mb-6">
     Votre vote compte ! Participez à la construction de l'avenir de notre école. Chaque vote est important et votre voix mérite d'être entendue. Faites la différence en participant au processus électoral.
   </p>

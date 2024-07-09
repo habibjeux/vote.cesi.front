@@ -26,6 +26,7 @@ function Resultat() {
   const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
   const candidatVoteRef = useRef<HTMLDivElement>(null);
   const windowSize = useScreenSize();
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const search = async () => {
     try {
@@ -33,7 +34,7 @@ function Resultat() {
       const data = await response.json();
       setPoste(data);
     } catch (error) {
-      console.log(error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
     }
   };
 
@@ -50,7 +51,7 @@ function Resultat() {
   }, [selectedPosteId]);
 
   const handlePosteClick = (id: number) => {
-    console.log(`Poste cliqué : ${id}`);
+    setConnectionError(null);
     setSelectedPosteId(id);
   };
 
@@ -66,7 +67,14 @@ function Resultat() {
               key={unPoste.id}
               onClick={() => handlePosteClick(unPoste.id)}
             />
+            
           ))}
+            {connectionError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">Erreur de connexion !</strong>
+          <span className="block sm:inline"> {connectionError}</span>
+        </div>
+      )}
         </div>
         {windowSize.width > 800 && (
           <img className="h-80" src={resultat} alt="visuel" />

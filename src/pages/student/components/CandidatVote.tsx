@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Candidate, Student } from "../type/Type"; 
+import { Candidate, Student } from "../type/Type";
 
 interface CandidatVoteProps {
   student: Student;
   idPoste: number;
-  name:string;
+  name: string;
 }
 
-const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste,name }) => {
+const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [voteCandidateId, setVoteCandidateId] = useState<number | null>(null);
+  const [isStudentVotedRole, setIsStudentVotedRole] = useState<boolean>(false);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:9090/cesi/role/${idPoste}`
+      const voteResponse = await fetch(
+        `http://localhost:9090/vote/student/${student.id}/role/${idPoste}`
       );
-      const data: Candidate[] = await response.json();
-      setCandidates(data);
-      console.log("Candidates:", JSON.stringify(data, null, 2));
+      const message: string = await voteResponse.text();
+
+      if (message.includes("already voted")) {
+        setIsStudentVotedRole(true);
+      } else {
+        const response = await fetch(
+          `http://localhost:9090/cesi/role/${idPoste}`
+        );
+        const data: Candidate[] = await response.json();
+        setCandidates(data);
+        setIsStudentVotedRole(false);
+      }
     } catch (error) {
-      console.log(error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
     }
   };
 
@@ -47,7 +58,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste,name }) =>
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
-      console.log("Error voting:", error);
+      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
     } finally {
@@ -73,54 +84,65 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste,name }) =>
   }, [idPoste]);
 
   return (
-    <div className="bg-orange-50 w-11/12">
-       <p className=" font-bold text-4xl text-primary text-center my-2">Vote poste {name} </p>
+    <div className="bg-blue-100 w-11/12 rounded-lg">
+      
+      <p className="font-bold text-4xl text-primary text-center my-2">
+        Vote poste {name}
+      </p>
+      {connectionError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold">Erreur de connexion !</strong>
+          <span className="block sm:inline"> {connectionError}</span>
+        </div>
+      )}
+      {isStudentVotedRole && (
+        <div className="bg-red-200 text-red-700 text-center p-4 mb-4 rounded-lg">
+          Vous avez déjà voté pour ce poste.
+        </div>
+      )}
       <div className="flex flex-row flex-wrap justify-center">
-        {candidates.map((unCandidat) => (
-          <div
-            key={unCandidat.id}
-            className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-80 mx-2"
-          >
+        {!isStudentVotedRole &&
+          candidates.map((unCandidat) => (
             <div
-              className="relative overflow-hidden bg-cover bg-no-repeat"
-              data-twe-ripple-init
-              data-twe-ripple-color="light"
+              key={unCandidat.id}
+              className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-80 mx-2"
             >
-              <img
-                className="rounded-t-lg w-"
-                src={unCandidat.photoURL}
-                alt="image candidat"
-              />
-              <a href="#!">
-                <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,98%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100"></div>
-              </a>
-            </div>
-            <div className="p-6 text-surface dark:text-white">
-              <h5 className="mb-2 text-xl font-medium leading-tight">
-                {unCandidat.student.firstName} {unCandidat.student.lastName}
-              </h5>
-              <button
-                type="button"
-                onClick={() => handleShowProgram(unCandidat.program)}
-                className="my-3 inline-block rounded bg-gray-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+              <div
+                className="relative overflow-hidden bg-cover bg-no-repeat"
                 data-twe-ripple-init
                 data-twe-ripple-color="light"
               >
-                Afficher le programme
-              </button>
-              <button
-                type="button"
-                onClick={() => confirmVote(unCandidat.id)}
-                className="inline-block rounded bg-green-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                data-twe-ripple-init
-                data-twe-ripple-color="light"
-              >
-                Voter
-              </button>
+                <img
+                  className="rounded-t-lg w-"
+                  src={unCandidat.photoURL}
+                  alt="image candidat"
+                />
+              </div>
+              <div className="p-6 text-surface dark:text-white">
+                <h5 className="mb-2 text-xl font-medium leading-tight">
+                  {unCandidat.student.firstName} {unCandidat.student.lastName}
+                </h5>
+                <button
+                  type="button"
+                  onClick={() => handleShowProgram(unCandidat.program)}
+                  className="my-3 inline-block rounded bg-gray-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                  data-twe-ripple-init
+                  data-twe-ripple-color="light"
+                >
+                  Afficher le programme
+                </button>
+                <button
+                  type="button"
+                  onClick={() => confirmVote(unCandidat.id)}
+                  className="inline-block rounded bg-green-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                  data-twe-ripple-init
+                  data-twe-ripple-color="light"
+                >
+                  Voter
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-
+          ))}
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50"></div>

@@ -12,7 +12,7 @@ function StudentHomePage() {
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!studentId) navigate("/login");
     const fetchStudent = async () => {

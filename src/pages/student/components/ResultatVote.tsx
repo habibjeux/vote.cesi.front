@@ -7,6 +7,7 @@ interface ResultatVoteProps {
 
 const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
   const [results, setResults] = useState<VoteResult[]>([]);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`http://localhost:9090/vote/count-by-candidate/${idPoste}`)
@@ -18,12 +19,17 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
           voteCount: item[2],
         }));
         setResults(formattedData);
+        setConnectionError(null);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) =>
+        setConnectionError(
+          "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+        )
+      );
   }, [idPoste]);
 
   return (
-    <div className="p-6 bg-primary w-2/3">
+    <div className="p-6 bg-orange-50 w-2/3">
       {results.length > 0 ? (
         <div className="space-y-4">
           {results.map(({ candidateId, candidate, voteCount }) => (

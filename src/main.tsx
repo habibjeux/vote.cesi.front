@@ -32,11 +32,16 @@ import Resultat from "./pages/student/Resultat.tsx";
 import ChangeStatusCandidatesPage from "./pages/admin/candidates/changeStatus/changeStatus.tsx";
 import AdminCandidatesLayout from "./pages/admin/candidates/layout.tsx";
 import InfosCandidatesPage from "./pages/admin/candidates/infos/infos.tsx";
+import AdminLoginPage from "./pages/admin/login.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/adlogin",
+    element: <AdminLoginPage />,
   },
   {
     path: "/login",

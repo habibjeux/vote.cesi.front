@@ -5,6 +5,11 @@ export interface LoginCredentials {
   email: string;
 }
 
+export interface AdminCredentials {
+  email: string;
+  password: string;
+}
+
 export interface AuthResponse {
   token: string;
   user: Student;

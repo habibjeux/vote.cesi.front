@@ -1,12 +1,11 @@
-
 import { Link } from "react-router-dom";
-import ImageDeco from "./components/ImageDeco";
+import ImageDeco from "../../components/ImageDeco";
 import icone from "../../assets/icone_vote.png";
-import useScreenSize from "./Hook/useScreenSize";
+import useScreenSize from "../../Hook/useScreenSize";
 import { useState } from "react";
 
 function Home() {
-  const windowSize = useScreenSize(); 
+  const windowSize = useScreenSize();
   const [connectionError, setConnectionError] = useState<string | null>(null);
   return (
     <div className="flex  justify-center">
@@ -17,8 +16,8 @@ function Home() {
           className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
           role="alert"
         >
-          <span className="font-medium">important!</span> le vote se déroulera le 29
-          juin de 9h à 18h.
+          <span className="font-medium">important!</span> le vote se déroulera
+          le 29 juin de 9h à 18h.
         </div>
         <Link
           to="/student/vote"

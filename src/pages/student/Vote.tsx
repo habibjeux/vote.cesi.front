@@ -1,10 +1,10 @@
-import  { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import Poste from "./components/Poste";
-import CandidatVote from "./components/CandidatVote";
+import Poste from "../../components/Poste";
+import CandidatVote from "../../components/CandidatVote";
 import icone from "../../assets/icone_vote.png";
 import visuel from "../../assets/visuel.png";
-import useScreenSize from "./Hook/useScreenSize";
+import useScreenSize from "../../Hook/useScreenSize";
 import { OutletContext } from "./type/Type";
 interface PosteType {
   id: number;
@@ -28,7 +28,9 @@ function Vote() {
       const data = await response.json();
       setPoste(data);
     } catch (error) {
-      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
+      setConnectionError(
+        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+      );
     }
   };
 
@@ -57,11 +59,14 @@ function Vote() {
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-xl">Choisir la poste pour voter</p>
           {connectionError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <strong className="font-bold">Erreur de connexion !</strong>
-          <span className="block sm:inline"> {connectionError}</span>
-        </div>
-      )}
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+              role="alert"
+            >
+              <strong className="font-bold">Erreur de connexion !</strong>
+              <span className="block sm:inline"> {connectionError}</span>
+            </div>
+          )}
           {postes.map((unPoste) => (
             <Poste
               unPoste={unPoste}
@@ -69,30 +74,37 @@ function Vote() {
               onClick={() => handlePosteClick(unPoste.id, unPoste.title)}
             />
           ))}
-           {windowSize.width > 800 && (
-          <img className="h-72 mb-2" src={visuel} alt="visuel"  />
-        )}
+          {windowSize.width > 800 && (
+            <img className="h-72 mb-2" src={visuel} alt="visuel" />
+          )}
         </div>
         <div className="flex flex-col">
-        <div className="flex flex-col items-center justify-center p-8 bg-blue-100 rounded-lg shadow-md max-w-lg mx-auto">
-  <h1 className="text-3xl font-bold text-primary mb-4">Exercez votre droit de vote !</h1>
-  <p className="text-lg text-blue-800 mb-6">
-    Votre vote compte ! Participez à la construction de l'avenir de notre école. Chaque vote est important et votre voix mérite d'être entendue. Faites la différence en participant au processus électoral.
-  </p>
-  <p className="text-lg text-blue-800 mb-6">
-    Voter est un droit et une responsabilité fondamentale. C’est votre opportunité de choisir les dirigeants qui vous représenteront et défendront vos intérêts. Ne manquez pas cette chance de vous exprimer !
-  </p>
-  <p className="text-lg text-blue-800 mb-6">
-    Rendez-vous aux bureaux de vote aujourd'hui et faites entendre votre voix. Ensemble, nous pouvons créer un avenir meilleur pour notre communauté scolaire.
-  </p>
-  <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-    Votez maintenant
-  </button>
-</div>
-
-       
+          <div className="flex flex-col items-center justify-center p-8 bg-blue-100 rounded-lg shadow-md max-w-lg mx-auto">
+            <h1 className="text-3xl font-bold text-primary mb-4">
+              Exercez votre droit de vote !
+            </h1>
+            <p className="text-lg text-blue-800 mb-6">
+              Votre vote compte ! Participez à la construction de l'avenir de
+              notre école. Chaque vote est important et votre voix mérite d'être
+              entendue. Faites la différence en participant au processus
+              électoral.
+            </p>
+            <p className="text-lg text-blue-800 mb-6">
+              Voter est un droit et une responsabilité fondamentale. C’est votre
+              opportunité de choisir les dirigeants qui vous représenteront et
+              défendront vos intérêts. Ne manquez pas cette chance de vous
+              exprimer !
+            </p>
+            <p className="text-lg text-blue-800 mb-6">
+              Rendez-vous aux bureaux de vote aujourd'hui et faites entendre
+              votre voix. Ensemble, nous pouvons créer un avenir meilleur pour
+              notre communauté scolaire.
+            </p>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+              Votez maintenant
+            </button>
+          </div>
         </div>
-        
       </div>
       {selectedPosteId && (
         <div

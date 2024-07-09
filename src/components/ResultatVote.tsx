@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Candidate, VoteResult } from "../type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
+import { Candidate, VoteResult } from "../pages/student/type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
 
 interface ResultatVoteProps {
   idPoste: number;

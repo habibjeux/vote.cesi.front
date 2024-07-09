@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, Link, Outlet, useNavigate } from "react-router-dom";
 
 import CESI from "../../assets/CESI.png";
-import useScreenSize from "./Hook/useScreenSize";
+import useScreenSize from "../../Hook/useScreenSize";
 import { Student } from "../../types/student.type";
 
 function StudentHomePage() {

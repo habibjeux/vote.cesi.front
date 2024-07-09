@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import Poste from "../../student/components/Poste";
+import Poste from "../../../components/Poste";
 import icone from "../../../assets/icone_vote.png";
-import ResultatVote from "../../student/components/ResultatVote";
+import ResultatVote from "../../../components/ResultatVote";
 import Text from "../../../components/ui/text";
 interface Poste {
   id: number;

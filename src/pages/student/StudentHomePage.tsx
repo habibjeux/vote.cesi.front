@@ -7,8 +7,8 @@ import { Student } from "../../types/student.type";
 
 function StudentHomePage() {
   const navigate = useNavigate();
-  const [count, setCount] = useState(0);
-  const studentId = 2;
+  const location = useLocation();
+  const studentId = location.state?.user.id;
   const [student, setStudent] = useState(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);

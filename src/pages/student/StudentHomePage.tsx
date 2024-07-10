@@ -2,33 +2,30 @@ import { useState, useEffect } from "react";
 import { useLocation, Link, Outlet, useNavigate } from "react-router-dom";
 
 import CESI from "../../assets/CESI.png";
-import useScreenSize from "./Hook/useScreenSize";
+import useScreenSize from "../../Hook/useScreenSize";
 import { Student } from "../../types/student.type";
 
-function StudentHomePage() {
-  const [count, setCount] = useState(0);
-  const studentId = 2;
-  const [student, setStudent] = useState(null);
+export default function StudentHomePage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const studentId = location.state?.user.id;
+  const [student, setStudent] = useState<Student | null>(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
   useEffect(() => {
     if (!studentId) navigate("/login");
-    const fetchStudent = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:9090/student/${studentId}`
-        );
-        const data = await response.json();
-        setStudent(data);
-        console.log("student:", data);
-      } catch (error) {
-        console.error("Error fetching student:", error);
-      }
-    };
-
-    fetchStudent();
+    fetchStudent(studentId);
   }, []);
+  const fetchStudent = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:9090/student/${id}`);
+      const data = await response.json();
+      setStudent(data);
+      console.log("student:", data);
+    } catch (error) {
+      console.error("Error fetching student:", error);
+    }
+  };
 
   return (
     <section className="h-screen">
@@ -110,5 +107,3 @@ function StudentHomePage() {
     </section>
   );
 }
-
-export default StudentHomePage;

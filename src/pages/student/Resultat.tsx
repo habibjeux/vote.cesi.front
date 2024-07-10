@@ -1,10 +1,10 @@
-import  { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import Poste from "./components/Poste";
+import Poste from "../../components/Poste";
 import icone from "../../assets/icone_vote.png";
 import resultat from "../../assets/resultatselections.png";
-import ResultatVote from "./components/ResultatVote";
-import useScreenSize from "./Hook/useScreenSize";
+import ResultatVote from "../../components/ResultatVote";
+import useScreenSize from "../../Hook/useScreenSize";
 
 interface Student {
   id: number;
@@ -34,7 +34,9 @@ function Resultat() {
       const data = await response.json();
       setPoste(data);
     } catch (error) {
-      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
+      setConnectionError(
+        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+      );
     }
   };
 
@@ -67,14 +69,16 @@ function Resultat() {
               key={unPoste.id}
               onClick={() => handlePosteClick(unPoste.id)}
             />
-            
           ))}
-            {connectionError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <strong className="font-bold">Erreur de connexion !</strong>
-          <span className="block sm:inline"> {connectionError}</span>
-        </div>
-      )}
+          {connectionError && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+              role="alert"
+            >
+              <strong className="font-bold">Erreur de connexion !</strong>
+              <span className="block sm:inline"> {connectionError}</span>
+            </div>
+          )}
         </div>
         {windowSize.width > 800 && (
           <img className="h-80" src={resultat} alt="visuel" />

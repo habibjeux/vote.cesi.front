@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import HomePage from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import LoginPage from "./pages/login.tsx";
+import LoginPage from "./pages/student/login.tsx";
 import AdminLayout from "./pages/admin/layout.tsx";
 import AdminPage from "./pages/admin/admin.tsx";
 import CandidatesHomePage from "./pages/admin/candidates/candidates.tsx";
@@ -23,7 +23,7 @@ import AddRolePage from "./pages/admin/roles/add/addRole.tsx";
 import EditRolePage from "./pages/admin/roles/edit/editRole.tsx";
 import DeleteRolePage from "./pages/admin/roles/delete/deleteRole.tsx";
 import AdminResultsPage from "./pages/admin/results/results.tsx";
-import OTPPage from "./pages/admin/otp/otp.tsx";
+import OTPPage from "./pages/student/otp.tsx";
 import StudentHomePage from "./pages/student/StudentHomePage.tsx";
 import Home from "./pages/student/Home.tsx";
 import Vote from "./pages/student/Vote.tsx";
@@ -31,11 +31,17 @@ import Candidature from "./pages/student/Candidature.tsx";
 import Resultat from "./pages/student/Resultat.tsx";
 import ChangeStatusCandidatesPage from "./pages/admin/candidates/changeStatus/changeStatus.tsx";
 import AdminCandidatesLayout from "./pages/admin/candidates/layout.tsx";
+import InfosCandidatesPage from "./pages/admin/candidates/infos/infos.tsx";
+import AdminLoginPage from "./pages/admin/login.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/adlogin",
+    element: <AdminLoginPage />,
   },
   {
     path: "/login",
@@ -130,6 +136,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <CandidatesHomePage />,
+          },
+          {
+            path: ":id",
+            element: <InfosCandidatesPage />,
           },
           {
             path: "changeStatus/:id",

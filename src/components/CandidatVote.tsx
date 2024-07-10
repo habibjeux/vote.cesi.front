@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Candidate, Student } from "../type/Type";
+import { Candidate, Student } from "../pages/student/type/Type";
 
 interface CandidatVoteProps {
   student: Student;
@@ -7,7 +7,11 @@ interface CandidatVoteProps {
   name: string;
 }
 
-const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) => {
+const CandidatVote: React.FC<CandidatVoteProps> = ({
+  student,
+  idPoste,
+  name,
+}) => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
@@ -34,7 +38,9 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
         setIsStudentVotedRole(false);
       }
     } catch (error) {
-      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
+      setConnectionError(
+        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+      );
     }
   };
 
@@ -58,7 +64,9 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
-      setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
+      setConnectionError(
+        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+      );
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
     } finally {
@@ -85,12 +93,14 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({ student, idPoste, name }) =
 
   return (
     <div className="bg-blue-100 w-11/12 rounded-lg">
-      
       <p className="font-bold text-4xl text-primary text-center my-2">
         Vote poste {name}
       </p>
       {connectionError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
           <strong className="font-bold">Erreur de connexion !</strong>
           <span className="block sm:inline"> {connectionError}</span>
         </div>

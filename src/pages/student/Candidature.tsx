@@ -1,8 +1,7 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import icone from "../../assets/icone_vote.png";
-import candidature from "../../assets/cndidature.png";
 import ImageDeco from "./components/ImageDeco";
 import { Candidate, CandidateResponse, Role, Student } from "./type/Type";
 

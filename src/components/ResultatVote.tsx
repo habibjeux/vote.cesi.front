@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Candidate, VoteResult } from "../type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
+import { Candidate, VoteResult } from "../pages/student/type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
 
 interface ResultatVoteProps {
   idPoste: number;
@@ -19,20 +19,18 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
           voteCount: item[2],
         }));
         setResults(formattedData);
-        setConnectionError(null)
+        setConnectionError(null);
       })
-      .catch((error) =>  setConnectionError("Erreur de connexion au serveur. Veuillez réessayer plus tard."));
+      .catch((error) =>
+        setConnectionError(
+          "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+        )
+      );
   }, [idPoste]);
 
   return (
-    <div className="p-6 bg-blue-100 w-2/3">
-       {connectionError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <strong className="font-bold">Erreur de connexion !</strong>
-          <span className="block sm:inline"> {connectionError}</span>
-        </div>
-      )}
-      {results.length > 0 && connectionError!=="Erreur de connexion au serveur. Veuillez réessayer plus tard." ? (
+    <div className="p-6 bg-orange-50 w-2/3">
+      {results.length > 0 ? (
         <div className="space-y-4">
           {results.map(({ candidateId, candidate, voteCount }) => (
             <div key={candidateId} className="p-4 bg-white rounded shadow">
@@ -50,14 +48,21 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
                   <h2 className="text-xl font-semibold">
                     {candidate?.student.firstName} {candidate?.student.lastName}
                   </h2>
-                  <p className="text-gray-600">Votes:<span className=" text-green-700 font-bold text-2xl mx-1">{voteCount}</span></p>
+                  <p className="text-gray-600">
+                    Votes:
+                    <span className=" text-green-700 font-bold text-2xl mx-1">
+                      {voteCount}
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-center text-red-500   font-bold">Le resultats pour ce post ne sont pas encore disponibles.</p>
+        <p className="text-center text-primary-foreground font-bold">
+          Le resultats pour ce post ne sont pas encore disponibles.
+        </p>
       )}
     </div>
   );

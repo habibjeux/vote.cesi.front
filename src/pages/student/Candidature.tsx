@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import icone from "../../assets/icone_vote.png";
-import ImageDeco from "./components/ImageDeco";
+
 import { Candidate, CandidateResponse, Role, Student } from "./type/Type";
+import ImageDeco from "../../components/ImageDeco";
 
 interface FormData {
   roleId: number;
   photo: File[];
   program: string;
+}
+interface Planning {
+  startDate: string;
+  endDate: string;
 }
 
 function Candidature() {
@@ -29,6 +34,22 @@ function Candidature() {
   const [studentCurrent, setRoleStudentCurrent] = useState<Student | null>(
     student
   );
+  const [isCandidatureOpen, setIsCandidatureOpen] = useState<boolean>(false);
+
+  const checkCandidatureOpen = async () => {
+    try {
+      const response = await fetch("http://localhost:9090/planning");
+      const planning: Planning = await response.json();
+      const now = new Date();
+      const startDate = new Date(planning.startDate);
+      const oneWeekBeforeStart = new Date(startDate);
+      oneWeekBeforeStart.setDate(startDate.getDate() - 7); 
+      setIsCandidatureOpen(now < oneWeekBeforeStart);
+      console.log(now < oneWeekBeforeStart)
+    } catch (error) {
+      console.error("Erreur lors de la vérification des dates de candidature:", error);
+    }
+  };
 
   async function miseAJour() {
     try {
@@ -42,6 +63,7 @@ function Candidature() {
       console.error("Erreur lors de la mise à jour du candidat:", error);
     }
   }
+
   const cancelCandidatClick = async (idCandidat: number) => {
     try {
       const response = await fetch(`http://localhost:9090/cesi/${idCandidat}`, {
@@ -57,6 +79,7 @@ function Candidature() {
       console.error("Erreur lors de l'annulation de la candidature:", error);
     }
   };
+
   useEffect(() => {
     const fetchRoles = async () => {
       if (!student) return;
@@ -78,7 +101,7 @@ function Candidature() {
         console.error("Erreur:", error);
       }
     };
-
+    checkCandidatureOpen();
     fetchRoles();
   }, [student]);
 
@@ -89,6 +112,10 @@ function Candidature() {
   }, [student]);
 
   const onSubmit = async (data: FormData) => {
+    if (candidate.length > 0) {
+      setSubmitError("Vous avez déjà soumis votre candidature pour ce poste.");
+      return;
+    }
     const formData = new FormData();
     formData.append("student_id", String(student?.id));
     formData.append("role_id", String(data.roleId));
@@ -126,10 +153,9 @@ function Candidature() {
   }, []);
 
   return (
-    <div className="flex  items-center">
-       <img className=" h-60  w-5/12 w-full" src={candidature} alt="image anta diop" />
-
-      {candidateResponse?.status === "success" ? (
+    <div className="flex items-center">
+      <ImageDeco />
+      {isCandidatureOpen ? (
         <div className="mx-auto flex flex-col justify-center items-center">
           <img className="w-24" src={icone} alt="icone vote" />
           <p className="text-green-600 text-xl font-bold my-2">
@@ -192,41 +218,65 @@ function Candidature() {
         </div>
       ) : (
         <div>
-          <div
-            className="  m-14 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24"
-            role="alert"
-          >
-            <div className="flex">
-              <div className="py-1">
-                <svg
-                  className="fill-current h-6 w-6 text-teal-500 mr-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-                </svg>
+          {candidateResponse?.status === "success" && candidate.length > 0 ? (
+            <div>
+              <div
+                className="m-14 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24"
+                role="alert"
+              >
+                <div className="flex">
+                  <div className="py-1">
+                    <svg
+                      className="fill-current h-6 w-6 text-teal-500 mr-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-bold">
+                      Impossible de postuler à nouveau à un poste
+                    </p>
+                    <p className="text-sm">
+                      Vous avez déjà postulé au poste de{" "}
+                      {candidate[0].role.title}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="font-bold">
-                  Impossible de postuler à nouveau à un poste
-                </p>
-                {candidate.length > 0 ? (
+              <button
+                onClick={() => cancelCandidatClick(candidate[0].id)}
+                type="button"
+                className="m-14 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              >
+                Annuler votre candidature
+              </button>
+            </div>
+          ) : (
+            <div
+              className="m-14 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24"
+              role="alert"
+            >
+              <div className="flex">
+                <div className="py-1">
+                  <svg
+                    className="fill-current h-6 w-6 text-teal-500 mr-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-bold">Les candidatures ne sont pas ouvertes</p>
                   <p className="text-sm">
-                    Vous avez déjà postulé au poste de {candidate[0].role.title}
+                    Vous pourrez postuler une semaine avant les votes.
                   </p>
-                ) : (
-                  <div> </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-          <button
-            onClick={() => cancelCandidatClick(candidate[0].id)}
-            type="button"
-            className=" m-14 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Annuler votre candidature
-          </button>
+          )}
         </div>
       )}
     </div>

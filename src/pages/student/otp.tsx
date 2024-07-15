@@ -25,7 +25,7 @@ export default function OTPPage() {
 
   const getOtpHandle = async () => {
     try {
-      const response: Otp = await getOtpByStudent(user.id);
+      const response: Otp = await getOtpByStudent(user);
       console.log(response);
       setOtp(response);
     } catch (err) {

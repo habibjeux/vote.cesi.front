@@ -10,18 +10,38 @@ interface PosteType {
   id: number;
   title: string;
 }
+interface Planning {
+  startDate: string;
+  endDate: string;
+}
 
 function Vote() {
   const { student } = useOutletContext<OutletContext>();
   const [postes, setPoste] = useState<PosteType[]>([]);
   const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
+  const [isVotingTime, setIsVotingTime] = useState<boolean>(false);
   const [selectedPosteName, setSelectedPosteName] = useState<string | null>(
     null
   );
   const candidatVoteRef = useRef<HTMLDivElement>(null);
   const windowSize = useScreenSize();
   const [connectionError, setConnectionError] = useState<string | null>(null);
-
+  const checkVotingTime = async () => {
+    try {
+      const response = await fetch("http://localhost:9090/planning");
+      const planning: Planning = await response.json();
+      const now = new Date();
+      const startDate = new Date(planning.startDate);
+      const endDate = new Date(planning.endDate);
+      console.log(now+"now"+startDate+"startDate"+endDate+"endDate")
+      console.log(now >= startDate && now <= endDate)
+      setIsVotingTime(now >= startDate && now <= endDate);
+    } catch (error) {
+      setConnectionError(
+        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+      );
+    }
+  };
   const search = async () => {
     try {
       const response = await fetch("http://localhost:9090/roles");
@@ -36,6 +56,7 @@ function Vote() {
 
   useEffect(() => {
     search();
+    checkVotingTime();
   }, []);
 
   useEffect(() => {
@@ -106,9 +127,9 @@ function Vote() {
           </div>
         </div>
       </div>
-      {selectedPosteId && (
+      {selectedPosteId && isVotingTime && (
         <div
-          className="flex justify-center flex-row  flex-wrap w-full items-center"
+          className="flex justify-center flex-row flex-wrap w-full items-center"
           ref={candidatVoteRef}
         >
           <CandidatVote
@@ -117,6 +138,17 @@ function Vote() {
             name={selectedPosteName || ""}
           />
         </div>
+      )}
+      {!isVotingTime && (
+       <div className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+       <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+       </svg>
+       <span className="sr-only">Info</span>
+       <div>
+         <span className="font-medium">Important!</span> Les votes nont pas encore demarre
+       </div>
+     </div>
       )}
     </div>
   );

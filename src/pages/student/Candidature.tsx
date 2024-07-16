@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import icone from "../../assets/icone_vote.png";
-
+import candidature from "../../assets/cndidature.png";
 import { Candidate, Role, Student } from "./type/Type";
 import ImageDeco from "../../components/ImageDeco";
 
@@ -148,8 +148,14 @@ function Candidature() {
   }, []);
 
   return (
-    <div className="flex items-center">
-      <ImageDeco />
+    <div className="flex  justify-around items-center mx-8">
+      <div className="flex flex-col ">
+      <p className="text-primary  font-bold my-2 text-2xl">
+      Envie de faire une différence ? Candidatez dès maintenant !
+    </p>
+       <img className="w-4/5  my-11" src={candidature} alt="icone vote" />
+      </div>
+       
       {candidate.length == 0 ? (
         isCandidatureOpen ? (
           <div className="mx-auto flex flex-col justify-center items-center">
@@ -213,7 +219,7 @@ function Candidature() {
             </form>
           </div>
         ) : (
-          <div className="m-14 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
+          <div className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
             <div className="flex">
               <div className="py-1">
                 <svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -230,7 +236,7 @@ function Candidature() {
           </div>
         )
       ) : (
-        <div className="m-14 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
+        <div className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
           <div className="flex">
             <div className="py-1">
               <svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

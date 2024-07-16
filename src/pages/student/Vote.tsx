@@ -117,9 +117,9 @@ function Vote() {
               exprimer !
             </p>
             <p className="text-lg text-blue-800 mb-6">
-              Rendez-vous aux bureaux de vote aujourd'hui et faites entendre
+               Faites entendre
               votre voix. Ensemble, nous pouvons créer un avenir meilleur pour
-              notre communauté scolaire.
+              notre communauté universitaire.
             </p>
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
               Votez maintenant
@@ -145,8 +145,8 @@ function Vote() {
          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
        </svg>
        <span className="sr-only">Info</span>
-       <div>
-         <span className="font-medium">Important!</span> Les votes nont pas encore demarre
+       <div className="text-xl">
+         <span className="font-medium">Important!</span> Les votes n'ont pas encore commencé
        </div>
      </div>
       )}

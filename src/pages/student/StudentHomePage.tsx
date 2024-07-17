@@ -8,14 +8,22 @@ import { Student } from "../../types/student.type";
 export default function StudentHomePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const studentId = location.state?.user.id;
   const [student, setStudent] = useState<Student | null>(null);
   const windowSize = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
-    if (!studentId) navigate("/login");
-    fetchStudent(studentId);
-  }, []);
+    const storedStudentId = localStorage.getItem("studentId");
+    const studentId = location.state?.user.id || storedStudentId;
+    
+    if (!studentId) {
+      navigate("/login");
+    } else {
+      localStorage.setItem("studentId", studentId);
+      fetchStudent(studentId);
+    }
+  }, [location.state, navigate]);
+
   const fetchStudent = async (id: number) => {
     try {
       const response = await fetch(`http://localhost:9090/student/${id}`);
@@ -101,6 +109,7 @@ export default function StudentHomePage() {
             )}
           </div>
         )}
+      
       </header>
 
       <Outlet context={{ student }} />

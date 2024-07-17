@@ -78,7 +78,7 @@ function Vote() {
       <div className="flex justify-center items-start">
         <div className="flex flex-col w-1/2  items-center">
           <img className="w-24" src={icone} alt="icone vote" />
-          <p className="text-xl">Choisir la poste pour voter</p>
+          <p className="text-2xl text-primary font-bold">Choisir la poste pour voter</p>
           {connectionError && (
             <div
               className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"

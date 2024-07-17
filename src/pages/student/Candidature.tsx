@@ -150,15 +150,15 @@ function Candidature() {
   return (
     <div className="flex  justify-around items-center mx-8">
       <div className="flex flex-col ">
-      <p className="text-primary  font-bold my-2 text-2xl">
-      Envie de faire une différence ? Candidatez dès maintenant !
+      <p className="text-primary  font-bold my-2 text-2xl text-center">
+      Envie de faire une différence ?<br/> Candidatez dès maintenant !
     </p>
-       <img className="w-4/5  my-11" src={candidature} alt="icone vote" />
+       <img className="w-auto  my-11" src={candidature} alt="icone vote" />
       </div>
        
       {candidate.length == 0 ? (
         isCandidatureOpen ? (
-          <div className="mx-auto flex flex-col justify-center items-center">
+          <div className="mx-auto flex flex-col justify-center items-center w-2/3">
             <img className="w-24" src={icone} alt="icone vote" />
             <p className="text-green-600 text-xl font-bold my-2">
               Veuillez remplir le formulaire pour candidater à un poste!

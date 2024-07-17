@@ -9,9 +9,11 @@ function Home() {
   const [voteTime, setVoteTime] = useState<string | null>(null);
   const [isVotingOpen, setIsVotingOpen] = useState<boolean>(false);
   const [isDatePassed, setIsDatePassed] = useState<boolean>(false);
+  const [studentName, setStudentName] = useState<string | null>(null);
 
   useEffect(() => {
     fetchVoteDate();
+    fetchStudentName();
   }, []);
 
   const fetchVoteDate = async () => {
@@ -30,6 +32,14 @@ function Home() {
     } catch (error) {
       console.error("Erreur lors de la récupération de la date du vote:", error);
       setVoteTime("Erreur lors de la récupération de la date du vote");
+    }
+  };
+
+  const fetchStudentName = () => {
+    const storedStudent = localStorage.getItem("student");
+    if (storedStudent) {
+      const student = JSON.parse(storedStudent);
+      setStudentName(`${student.firstName} ${student.lastName}`);
     }
   };
 
@@ -52,7 +62,9 @@ function Home() {
     <div className="flex justify-center">
       {windowSize.width > 800 ? <ImageDeco /> : <div></div>}
       <div className="flex flex-col justify-center items-center w-1/2 font-bold text-lg">
-        <p className="my-2">Bienvenue dans votre espace de vote électronique</p>
+      {studentName && <p className="my-2 text-primary">Bonjour, {studentName}</p>}
+        <p className="my-2 text-primary">Bienvenue dans votre espace de vote électronique</p>
+       
         <div
           className={`p-4 mb-4 text-sm rounded-lg ${
             isVotingOpen ? "bg-green-50 text-green-800" : isDatePassed ? "bg-red-50 text-red-800" : "bg-yellow-50 text-yellow-800"

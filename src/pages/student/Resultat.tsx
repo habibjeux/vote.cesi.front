@@ -82,7 +82,7 @@ function Resultat() {
       <div className="flex justify-center items-center">
         <div className="flex flex-col w-1/2 justify-center items-center">
           <img className="w-24" src={icone} alt="icone vote" />
-          <p className="text-xl">Choisir la poste pour voir la resulat</p>
+          <p className="text-2xl text-primary font-bold">Choisir la poste pour voir la resulat</p>
           {postes.map((unPoste) => (
             <Poste
               unPoste={unPoste}

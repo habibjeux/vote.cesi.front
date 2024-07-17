@@ -16,7 +16,7 @@ const Poste: React.FC<PosteProps> = ({ unPoste, onClick }) => {
       onClick={() => onClick(unPoste.id)}
     >
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{unPoste.title}</div>
+        <div className="font-bold text-xl mb-2 text-primary">{unPoste.title}</div>
       </div>
     </div>
   );

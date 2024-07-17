@@ -44,10 +44,18 @@ export const createPlanning = async (
   }
 };
 
-export const updatePlanning = async (planning: Planning): Promise<Planning> => {
+export const updatePlanning = async (
+  startDate: Date,
+  endDate: Date
+): Promise<Planning> => {
   try {
+    const planning: Planning = {
+      id: 0,
+      startDate,
+      endDate,
+    };
     const response = await axios.put<Planning>(
-      `${API_URL}/planning/${planning.id}`,
+      `${API_URL}/planning`,
       planning,
       { headers: authHeader() }
     );

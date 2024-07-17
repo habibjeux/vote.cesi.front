@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link, Outlet, useNavigate } from "react-router-dom";
-
 import CESI from "../../assets/CESI.png";
 import useScreenSize from "../../Hook/useScreenSize";
 import { Student } from "../../types/student.type";
@@ -15,7 +14,7 @@ export default function StudentHomePage() {
   useEffect(() => {
     const storedStudentId = localStorage.getItem("studentId");
     const studentId = location.state?.user.id || storedStudentId;
-    
+
     if (!studentId) {
       navigate("/login");
     } else {
@@ -33,6 +32,11 @@ export default function StudentHomePage() {
     } catch (error) {
       console.error("Error fetching student:", error);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("studentId");
+    navigate("/login");
   };
 
   return (
@@ -59,6 +63,15 @@ export default function StudentHomePage() {
               <li className="text-primary text-lg font-bold">
                 <Link to="/student/resultat">Resultat</Link>
               </li>
+              <li>
+                <button
+                 
+                  type="button" className=" mx-10 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                  onClick={handleLogout}
+                >
+                  Deconnexion
+                </button>
+              </li>
             </ul>
           </nav>
         ) : (
@@ -68,13 +81,13 @@ export default function StudentHomePage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="size-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
                 />
               </svg>
@@ -105,11 +118,17 @@ export default function StudentHomePage() {
                 >
                   Resultat
                 </Link>
+                <button
+                  type="button"
+                  className="block w-full text-left px-4 py-2 text-primary text-lg font-bold"
+                  onClick={handleLogout}
+                >
+                  Deconnexion
+                </button>
               </div>
             )}
           </div>
         )}
-      
       </header>
 
       <Outlet context={{ student }} />

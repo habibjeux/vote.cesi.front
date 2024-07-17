@@ -23,25 +23,13 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
 
   const fetchCandidates = async () => {
     try {
-      const voteResponse = await fetch(
-        `http://localhost:9090/vote/student/${student.id}/role/${idPoste}`,
-        {
-          headers: authHeader(),
-        }
+      const response = await fetch(
+        `http://localhost:9090/cesi/role/${idPoste}`,
+        { headers: authHeader() }
       );
-      const message: string = await voteResponse.text();
-
-      if (message.includes("already voted")) {
-        setIsStudentVotedRole(true);
-      } else {
-        const response = await fetch(
-          `http://localhost:9090/cesi/role/${idPoste}`,
-          { headers: authHeader() }
-        );
-        const data: Candidate[] = await response.json();
-        setCandidates(data);
-        setIsStudentVotedRole(false);
-      }
+      const data: Candidate[] = await response.json();
+      setCandidates(data);
+      setIsStudentVotedRole(false);
     } catch (error) {
       setConnectionError(
         "Erreur de connexion au serveur. Veuillez réessayer plus tard."
@@ -55,19 +43,27 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
     try {
       const response = await fetch("http://localhost:9090/vote", {
         method: "POST",
-        headers: authHeader(),
+        headers: {
+          ...authHeader(),
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           studentId: student.id,
           candidateId: voteCandidateId,
           voteDate: new Date().toISOString(),
         }),
       });
+
+      if (!response.ok) {
+        throw new Error("Vous avez déjà voté pour ce poste.");
+      }
+
       const result = await response.json();
       console.log("Vote successful:", result);
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
-      setConnectionError("vous avez deja votez pour ce poste");
+      setConnectionError("Vous avez déjà voté pour ce poste.");
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
     } finally {
@@ -123,7 +119,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
                 data-twe-ripple-color="light"
               >
                 <img
-                  className="rounded-t-lg w-"
+                  className="rounded-t-lg w-full"
                   src={unCandidat.photoURL}
                   alt="image candidat"
                 />

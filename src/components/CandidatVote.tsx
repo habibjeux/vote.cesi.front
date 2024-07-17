@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Candidate, Student } from "../pages/student/type/Type";
+import authHeader from "../services/auth-header";
 
 interface CandidatVoteProps {
   student: Student;
@@ -23,7 +24,10 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
   const fetchCandidates = async () => {
     try {
       const voteResponse = await fetch(
-        `http://localhost:9090/vote/student/${student.id}/role/${idPoste}`
+        `http://localhost:9090/vote/student/${student.id}/role/${idPoste}`,
+        {
+          headers: authHeader(),
+        }
       );
       const message: string = await voteResponse.text();
 
@@ -31,7 +35,8 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
         setIsStudentVotedRole(true);
       } else {
         const response = await fetch(
-          `http://localhost:9090/cesi/role/${idPoste}`
+          `http://localhost:9090/cesi/role/${idPoste}`,
+          { headers: authHeader() }
         );
         const data: Candidate[] = await response.json();
         setCandidates(data);
@@ -50,9 +55,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
     try {
       const response = await fetch("http://localhost:9090/vote", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeader(),
         body: JSON.stringify({
           studentId: student.id,
           candidateId: voteCandidateId,
@@ -64,9 +67,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
-      setConnectionError(
-        "vous avez deja votez pour ce poste"
-      );
+      setConnectionError("vous avez deja votez pour ce poste");
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
     } finally {
@@ -101,7 +102,6 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
           className="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
           role="alert"
         >
-         
           <span className="block sm:inline"> {connectionError}</span>
         </div>
       )}

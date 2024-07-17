@@ -6,6 +6,7 @@ import icone from "../../assets/icone_vote.png";
 import visuel from "../../assets/visuel.png";
 import useScreenSize from "../../Hook/useScreenSize";
 import { OutletContext } from "./type/Type";
+import authHeader from "../../services/auth-header";
 interface PosteType {
   id: number;
   title: string;
@@ -28,13 +29,15 @@ function Vote() {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const checkVotingTime = async () => {
     try {
-      const response = await fetch("http://localhost:9090/planning");
+      const response = await fetch("http://localhost:9090/planning", {
+        headers: authHeader(),
+      });
       const planning: Planning = await response.json();
       const now = new Date();
       const startDate = new Date(planning.startDate);
       const endDate = new Date(planning.endDate);
-      console.log(now+"now"+startDate+"startDate"+endDate+"endDate")
-      console.log(now >= startDate && now <= endDate)
+      console.log(now + "now" + startDate + "startDate" + endDate + "endDate");
+      console.log(now >= startDate && now <= endDate);
       setIsVotingTime(now >= startDate && now <= endDate);
     } catch (error) {
       setConnectionError(
@@ -44,7 +47,9 @@ function Vote() {
   };
   const search = async () => {
     try {
-      const response = await fetch("http://localhost:9090/roles");
+      const response = await fetch("http://localhost:9090/roles", {
+        headers: authHeader(),
+      });
       const data = await response.json();
       setPoste(data);
     } catch (error) {
@@ -78,18 +83,30 @@ function Vote() {
       <div className="flex justify-center items-start">
         <div className="flex flex-col w-1/2  items-center">
           <img className="w-24" src={icone} alt="icone vote" />
-          <p className="text-2xl text-primary font-bold">Choisir la poste pour voter</p>
+          <p className="text-2xl text-primary font-bold">
+            Choisir la poste pour voter
+          </p>
           {!isVotingTime && (
-       <div className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-       <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-       </svg>
-       <span className="sr-only">Info</span>
-       <div className="text-xl">
-         <span className="font-medium">Important!</span> Les votes sont fermes
-       </div>
-     </div>
-      )}
+            <div
+              className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+              role="alert"
+            >
+              <svg
+                className="flex-shrink-0 inline w-4 h-4 me-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+              <span className="sr-only">Info</span>
+              <div className="text-xl">
+                <span className="font-medium">Important!</span> Les votes sont
+                fermes
+              </div>
+            </div>
+          )}
           {connectionError && (
             <div
               className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
@@ -128,9 +145,8 @@ function Vote() {
               exprimer !
             </p>
             <p className="text-lg text-blue-800 mb-6">
-               Faites entendre
-              votre voix. Ensemble, nous pouvons créer un avenir meilleur pour
-              notre communauté universitaire.
+              Faites entendre votre voix. Ensemble, nous pouvons créer un avenir
+              meilleur pour notre communauté universitaire.
             </p>
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
               Votez maintenant
@@ -150,7 +166,6 @@ function Vote() {
           />
         </div>
       )}
-     
     </div>
   );
 }

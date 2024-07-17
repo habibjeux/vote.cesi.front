@@ -171,7 +171,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/student",
-    element: <StudentHomePage />,
+    element: (
+      <PrivateRoute>
+        <StudentHomePage />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",

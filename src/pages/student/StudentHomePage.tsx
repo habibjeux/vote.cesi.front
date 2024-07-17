@@ -4,6 +4,7 @@ import CESI from "../../assets/CESI.png";
 import useScreenSize from "../../Hook/useScreenSize";
 import { Student } from "../../types/student.type";
 import authHeader from "../../services/auth-header";
+import { logout } from "../../services/login.service";
 
 export default function StudentHomePage() {
   const navigate = useNavigate();
@@ -14,20 +15,16 @@ export default function StudentHomePage() {
 
   useEffect(() => {
     const storedStudentId = localStorage.getItem("studentId");
-    const studentId = location.state?.user.id || storedStudentId;
+    const studentId = location.state?.student.id || storedStudentId;
 
-    if (!studentId) {
-      navigate("/login");
-    } else {
-      localStorage.setItem("studentId", studentId);
-      fetchStudent(studentId);
-    }
+    localStorage.setItem("studentId", studentId);
+    fetchStudent(studentId);
   }, [location.state, navigate]);
 
   const fetchStudent = async (id: number) => {
     try {
       const response = await fetch(`http://localhost:9090/student/${id}`, {
-        headers: authHeader,
+        headers: authHeader(),
       });
       const data = await response.json();
       setStudent(data);
@@ -38,7 +35,9 @@ export default function StudentHomePage() {
   };
 
   const handleLogout = () => {
+    logout();
     localStorage.removeItem("studentId");
+    localStorage.removeItem("student");
     navigate("/login");
   };
 

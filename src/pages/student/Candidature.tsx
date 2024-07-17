@@ -5,6 +5,7 @@ import icone from "../../assets/icone_vote.png";
 import candidature from "../../assets/cndidature.png";
 import { Candidate, Role, Student } from "./type/Type";
 import ImageDeco from "../../components/ImageDeco";
+import authHeader from "../../services/auth-header";
 
 interface FormData {
   roleId: number;
@@ -36,7 +37,9 @@ function Candidature() {
 
   const checkCandidatureOpen = async () => {
     try {
-      const response = await fetch("http://localhost:9090/planning");
+      const response = await fetch("http://localhost:9090/planning", {
+        headers: authHeader(),
+      });
       const planning: Planning = await response.json();
       const now = new Date();
       const startDate = new Date(planning.startDate);
@@ -44,14 +47,18 @@ function Candidature() {
       oneWeekBeforeStart.setDate(startDate.getDate() - 7);
       setIsCandidatureOpen(now < oneWeekBeforeStart);
     } catch (error) {
-      console.error("Erreur lors de la vérification des dates de candidature:", error);
+      console.error(
+        "Erreur lors de la vérification des dates de candidature:",
+        error
+      );
     }
   };
 
   async function miseAJour() {
     try {
       const candidateResponse = await fetch(
-        `http://localhost:9090/cesi/student/${student?.nce}`
+        `http://localhost:9090/cesi/student/${student?.nce}`,
+        { headers: authHeader() }
       );
       const dataCandidat = await candidateResponse.json();
       setCandidate(dataCandidat);
@@ -63,6 +70,7 @@ function Candidature() {
   const cancelCandidatClick = async (idCandidat: number) => {
     try {
       const response = await fetch(`http://localhost:9090/cesi/${idCandidat}`, {
+        headers: authHeader(),
         method: "DELETE",
       });
 
@@ -81,9 +89,12 @@ function Candidature() {
       if (!student) return;
 
       try {
-        const response = await fetch("http://localhost:9090/roles");
+        const response = await fetch("http://localhost:9090/roles", {
+          headers: authHeader(),
+        });
         const candidateResponse = await fetch(
-          `http://localhost:9090/cesi/student/${student.nce}`
+          `http://localhost:9090/cesi/student/${student.nce}`,
+          { headers: authHeader() }
         );
         const dataRoles = await response.json();
         const dataCandidat = await candidateResponse.json();
@@ -119,6 +130,7 @@ function Candidature() {
 
     try {
       const response = await fetch("http://localhost:9090/cesi/candidates", {
+        headers: authHeader(),
         method: "POST",
         body: formData,
       });
@@ -155,7 +167,7 @@ function Candidature() {
         </p>
         <img className="w-auto my-11" src={candidature} alt="icone vote" />
       </div>
-  
+
       {candidate.length === 0 ? (
         isCandidatureOpen ? (
           <div className="mx-auto flex flex-col justify-center items-center w-2/3">
@@ -219,15 +231,24 @@ function Candidature() {
             </form>
           </div>
         ) : (
-          <div className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
+          <div
+            className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24"
+            role="alert"
+          >
             <div className="flex">
               <div className="py-1">
-                <svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <svg
+                  className="fill-current h-6 w-6 text-teal-500 mr-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
                   <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                 </svg>
               </div>
               <div>
-                <p className="font-bold">Les candidatures ne sont pas ouvertes</p>
+                <p className="font-bold">
+                  Les candidatures ne sont pas ouvertes
+                </p>
                 <p className="text-sm">
                   Vous pourrez postuler une semaine avant les votes.
                 </p>
@@ -236,10 +257,17 @@ function Candidature() {
           </div>
         )
       ) : (
-        <div className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24" role="alert">
+        <div
+          className="m-14 w-1/2 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md h-24"
+          role="alert"
+        >
           <div className="flex">
             <div className="py-1">
-              <svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <svg
+                className="fill-current h-6 w-6 text-teal-500 mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
                 <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
               </svg>
             </div>
@@ -265,7 +293,6 @@ function Candidature() {
       )}
     </div>
   );
-  
 }
 
 export default Candidature;

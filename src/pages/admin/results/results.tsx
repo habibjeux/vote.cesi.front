@@ -3,6 +3,7 @@ import Poste from "../../../components/Poste";
 import icone from "../../../assets/icone_vote.png";
 import ResultatVote from "../../../components/ResultatVote";
 import Text from "../../../components/ui/text";
+import authHeader from "../../../services/auth-header";
 interface Poste {
   id: number;
   title: string;
@@ -14,7 +15,9 @@ export default function AdminResultsPage() {
   const candidatVoteRef = useRef<HTMLDivElement>(null);
   const search = async () => {
     try {
-      const response = await fetch("http://localhost:9090/roles");
+      const response = await fetch("http://localhost:9090/roles", {
+        headers: authHeader(),
+      });
       const data = await response.json();
       setPoste(data);
     } catch (error) {

@@ -54,7 +54,7 @@ export default function OTPPage() {
     try {
       const response = await verifyOtp(student.id, value);
       saveUser(response);
-      return navigate("/student");
+      return navigate("/student", { state: { student: student } });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {

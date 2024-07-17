@@ -5,6 +5,7 @@ import icone from "../../assets/icone_vote.png";
 import resultat from "../../assets/resultatselections.png";
 import ResultatVote from "../../components/ResultatVote";
 import useScreenSize from "../../Hook/useScreenSize";
+import authHeader from "../../services/auth-header";
 
 interface Student {
   id: number;
@@ -35,7 +36,9 @@ function Resultat() {
 
   const search = async () => {
     try {
-      const response = await fetch("http://localhost:9090/roles");
+      const response = await fetch("http://localhost:9090/roles", {
+        headers: authHeader(),
+      });
       const data = await response.json();
       setPoste(data);
     } catch (error) {
@@ -46,7 +49,9 @@ function Resultat() {
   };
   const checkVotingTime = async () => {
     try {
-      const response = await fetch("http://localhost:9090/planning");
+      const response = await fetch("http://localhost:9090/planning", {
+        headers: authHeader(),
+      });
       const planning: Planning = await response.json();
       const now = new Date();
       const endDate = new Date(planning.endDate);
@@ -57,7 +62,6 @@ function Resultat() {
       );
     }
   };
-
 
   useEffect(() => {
     search();
@@ -82,7 +86,9 @@ function Resultat() {
       <div className="flex justify-center items-center">
         <div className="flex flex-col w-1/2 justify-center items-center">
           <img className="w-24" src={icone} alt="icone vote" />
-          <p className="text-2xl text-primary font-bold">Choisir la poste pour voir la resulat</p>
+          <p className="text-2xl text-primary font-bold">
+            Choisir la poste pour voir la resulat
+          </p>
           {postes.map((unPoste) => (
             <Poste
               unPoste={unPoste}
@@ -114,15 +120,25 @@ function Resultat() {
         </div>
       )}
       {selectedPosteId !== null && !isVotingEnded && (
-        <div className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-        </svg>
-        <span className="sr-only">Info</span>
-        <div className="text-xl">
-          <span className="font-medium">Info!</span> Les résultats ne sont pas encore disponibles. Le vote est toujours en cours.
+        <div
+          className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+          role="alert"
+        >
+          <svg
+            className="flex-shrink-0 inline w-4 h-4 me-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <span className="sr-only">Info</span>
+          <div className="text-xl">
+            <span className="font-medium">Info!</span> Les résultats ne sont pas
+            encore disponibles. Le vote est toujours en cours.
+          </div>
         </div>
-      </div>
       )}
     </div>
   );

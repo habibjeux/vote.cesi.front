@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Candidate, VoteResult } from "../pages/student/type/Type"; // Assurez-vous de définir le chemin correct vers vos interfaces
+import authHeader from "../services/auth-header";
 
 interface ResultatVoteProps {
   idPoste: number;
@@ -10,7 +11,9 @@ const ResultatVote: React.FC<ResultatVoteProps> = ({ idPoste }) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:9090/vote/count-by-candidate/${idPoste}`)
+    fetch(`http://localhost:9090/vote/count-by-candidate/${idPoste}`, {
+      headers: authHeader(),
+    })
       .then((response) => response.json())
       .then((data: [number, Candidate, number][]) => {
         const formattedData: VoteResult[] = data.map((item) => ({

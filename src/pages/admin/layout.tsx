@@ -3,8 +3,8 @@ import { SideNavbar } from "../../components/sidenav";
 import {
   ArrowBigLeft,
   AwardIcon,
-  BookA,
   BookAudio,
+  Calendar,
   CogIcon,
   HomeIcon,
   LogOutIcon,
@@ -32,6 +32,12 @@ export default function AdminLayout() {
                 icon: HomeIcon,
                 link: "",
                 variant: "default",
+              },
+              {
+                title: "Planning",
+                icon: Calendar,
+                link: "/planning",
+                variant: "ghost",
               },
               {
                 title: "Classes",
@@ -66,7 +72,7 @@ export default function AdminLayout() {
               {
                 title: "Déconnexion",
                 icon: LogOutIcon,
-                link: "/signout",
+                link: "/logout",
                 variant: "ghost",
               },
             ]}

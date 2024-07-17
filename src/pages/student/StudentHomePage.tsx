@@ -3,6 +3,7 @@ import { useLocation, Link, Outlet, useNavigate } from "react-router-dom";
 import CESI from "../../assets/CESI.png";
 import useScreenSize from "../../Hook/useScreenSize";
 import { Student } from "../../types/student.type";
+import authHeader from "../../services/auth-header";
 
 export default function StudentHomePage() {
   const navigate = useNavigate();
@@ -25,7 +26,9 @@ export default function StudentHomePage() {
 
   const fetchStudent = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:9090/student/${id}`);
+      const response = await fetch(`http://localhost:9090/student/${id}`, {
+        headers: authHeader,
+      });
       const data = await response.json();
       setStudent(data);
       console.log("student:", data);
@@ -65,8 +68,8 @@ export default function StudentHomePage() {
               </li>
               <li>
                 <button
-                 
-                  type="button" className=" mx-10 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                  type="button"
+                  className=" mx-10 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                   onClick={handleLogout}
                 >
                   Deconnexion

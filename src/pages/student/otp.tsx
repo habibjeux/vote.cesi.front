@@ -6,28 +6,28 @@ import {
   InputOTPSlot,
 } from "../../components/ui/input-otp";
 import { Student } from "../../types/student.type";
-import { Otp } from "../../types/otp.type";
 import { FormEvent, useEffect, useState } from "react";
-import { getOtpByStudent } from "../../services/otps.service";
+import { getOtpByStudent, verifyOtp } from "../../services/otps.service";
 import axios from "axios";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
+import { saveUser } from "../../services/login.service";
 
 export default function OTPPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const user: Student = location.state?.user;
+  const [message, setMessage] = useState<string | null>(null);
+  const student: Student = location.state?.student;
   const [value, setValue] = useState<string>("");
   const [loadingPage, setLoadingPage] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [otp, setOtp] = useState<Otp | null>(null);
 
   const getOtpHandle = async () => {
     try {
-      const response: Otp = await getOtpByStudent(user);
+      const response = await getOtpByStudent(student);
+      setMessage(response);
       console.log(response);
-      setOtp(response);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {
@@ -50,21 +50,32 @@ export default function OTPPage() {
     setLoadingPage(false);
   }, []);
 
+  const verifyOtpHandle = async () => {
+    try {
+      const response = await verifyOtp(student.id, value);
+      saveUser(response);
+      return navigate("/student");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          setError(
+            "Impossible de se connecter au serveur. Vérifiez votre connexion internet ou contactez l'administrateur."
+          );
+        } else {
+          console.log(err.response?.data);
+          setError(() => err.response?.data);
+        }
+      } else {
+        setError(() => "Une erreur inattendue s'est produite.");
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     setLoading(true);
-    if (otp?.code === value) {
-      navigate("/student", { state: { user: user } });
-    }
-    if (otp?.expiryDate != null) {
-      const expiryDate = new Date(otp?.expiryDate);
-      if (expiryDate.getTime() < new Date().getTime()) {
-        setError("Code expiré! Veuillez en générer un autre.");
-      }
-    }
-    if (otp?.code !== value) {
-      setError("Code incorrect");
-    }
+    verifyOtpHandle();
     setLoading(false);
   }
 
@@ -107,6 +118,11 @@ export default function OTPPage() {
           {error && (
             <Badge className="w-full mt-2" variant={"destructive"}>
               {error}
+            </Badge>
+          )}
+          {message && (
+            <Badge className="w-full mt-2" variant={"default"}>
+              {message}
             </Badge>
           )}
         </div>

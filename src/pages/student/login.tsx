@@ -25,7 +25,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const response: Student = await login(credentiels);
-      return navigate("/login/otp", { state: { user: response } });
+      return navigate("/login/otp", { state: { student: response } });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {

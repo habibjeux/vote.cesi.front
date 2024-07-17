@@ -1,10 +1,13 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 import { Student } from "../types/student.type";
 const API_URL = "http://localhost:9090";
 
 export const getStudentById = async (id: number) => {
   try {
-    const response = await axios.get(`${API_URL}/student/${id}`);
+    const response = await axios.get(`${API_URL}/student/${id}`, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -17,7 +20,9 @@ export const getStudentById = async (id: number) => {
 
 export const addStudent = async (student: Student) => {
   try {
-    const response = await axios.post(`${API_URL}/student`, student);
+    const response = await axios.post(`${API_URL}/student`, student, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -30,7 +35,9 @@ export const addStudent = async (student: Student) => {
 
 export const addStudents = async (students: Student[]) => {
   try {
-    const response = await axios.post(`${API_URL}/student/bulk`, students);
+    const response = await axios.post(`${API_URL}/student/bulk`, students, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -43,7 +50,9 @@ export const addStudents = async (students: Student[]) => {
 
 export const getStudents = async () => {
   try {
-    const response = await axios.get(`${API_URL}/student`);
+    const response = await axios.get(`${API_URL}/student`, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -56,7 +65,9 @@ export const getStudents = async () => {
 
 export const getStudent = async (id: number) => {
   try {
-    const response = await axios.get(`${API_URL}/student/${id}`);
+    const response = await axios.get(`${API_URL}/student/${id}`, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -69,7 +80,9 @@ export const getStudent = async (id: number) => {
 
 export const updateStudent = async (id: number, student: Student) => {
   try {
-    const response = await axios.put(`${API_URL}/student/${id}`, student);
+    const response = await axios.put(`${API_URL}/student/${id}`, student, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -82,7 +95,9 @@ export const updateStudent = async (id: number, student: Student) => {
 
 export const deleteStudent = async (id: number) => {
   try {
-    const response = await axios.delete(`${API_URL}/student/${id}`);
+    const response = await axios.delete(`${API_URL}/student/${id}`, {
+      headers: authHeader(),
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

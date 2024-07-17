@@ -15,3 +15,19 @@ export const getOtpByStudent = async (student: Student) => {
     }
   }
 };
+
+export const verifyOtp = async (studentId: number, code: string) => {
+  try {
+    const response = await axios.post(`${API_URL}/otp/verify`, {
+      studentId,
+      code,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error;
+    } else {
+      throw new Error("An unexpected error occurred");
+    }
+  }
+};

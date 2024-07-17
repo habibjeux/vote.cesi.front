@@ -27,3 +27,19 @@ export const loginAdmin = async (credentials: AdminCredentials) => {
     }
   }
 };
+
+export const logout = async () => {
+  localStorage.removeItem("user");
+};
+
+export const saveUser = (user: any) => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+export const getCurrentUser = () => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    return JSON.parse(user);
+  }
+  return null;
+};

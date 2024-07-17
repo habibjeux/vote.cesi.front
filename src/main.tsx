@@ -5,6 +5,8 @@ import "./index.css";
 import LoginPage from "./pages/student/login.tsx";
 import AdminLayout from "./pages/admin/layout.tsx";
 import AdminPage from "./pages/admin/admin.tsx";
+import LogOut from "./pages/logOut.js";
+
 import CandidatesHomePage from "./pages/admin/candidates/candidates.tsx";
 import AddStudentsCSVPage from "./pages/admin/students/addwithcsv/addStudents.tsx";
 import AdminStudentLayout from "./pages/admin/students/layout.tsx";
@@ -33,6 +35,8 @@ import ChangeStatusCandidatesPage from "./pages/admin/candidates/changeStatus/ch
 import AdminCandidatesLayout from "./pages/admin/candidates/layout.tsx";
 import InfosCandidatesPage from "./pages/admin/candidates/infos/infos.tsx";
 import AdminLoginPage from "./pages/admin/login.tsx";
+import PlanningPage from "./pages/admin/planning/planning.tsx";
+import PrivateRoute from "./pages/PrivateRoute.tsx";
 
 const router = createBrowserRouter([
   {
@@ -53,11 +57,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <PrivateRoute>
+        <AdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
         element: <AdminPage />,
+      },
+      {
+        path: "logout",
+        element: <LogOut />,
+      },
+      {
+        path: "planning",
+        element: <PlanningPage />,
       },
       {
         path: "students",

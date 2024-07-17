@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { AdminCredentials } from "../../types/auth.type";
-import { loginAdmin } from "../../services/login.service";
+import { loginAdmin, saveUser } from "../../services/login.service";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Student } from "../../types/student.type";
@@ -25,7 +25,8 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       const response: Student = await loginAdmin(credentiels);
-      return navigate("/admin", { state: { user: response } });
+      saveUser(response);
+      return navigate("/admin");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {

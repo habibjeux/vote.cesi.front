@@ -65,7 +65,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
       setModalContent("Votre vote a été pris en compte.");
     } catch (error) {
       setConnectionError(
-        "Erreur de connexion au serveur. Veuillez réessayer plus tard."
+        "vous avez deja votez pour ce poste"
       );
       setModalTitle("Erreur");
       setModalContent("Vous avez déjà voté pour ce poste.");
@@ -98,10 +98,10 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
       </p>
       {connectionError && (
         <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          className="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
           role="alert"
         >
-          <strong className="font-bold">Erreur de connexion !</strong>
+         
           <span className="block sm:inline"> {connectionError}</span>
         </div>
       )}

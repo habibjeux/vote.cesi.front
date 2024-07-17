@@ -148,15 +148,15 @@ function Candidature() {
   }, []);
 
   return (
-    <div className="flex  justify-around items-center mx-8">
-      <div className="flex flex-col ">
-      <p className="text-primary  font-bold my-2 text-2xl text-center">
-      Envie de faire une différence ?<br/> Candidatez dès maintenant !
-    </p>
-       <img className="w-auto  my-11" src={candidature} alt="icone vote" />
+    <div className="flex justify-around items-center mx-8">
+      <div className="flex flex-col">
+        <p className="text-primary font-bold my-2 text-2xl text-center">
+          Envie de faire une différence ?<br /> Candidatez dès maintenant !
+        </p>
+        <img className="w-auto my-11" src={candidature} alt="icone vote" />
       </div>
-       
-      {candidate.length == 0 ? (
+  
+      {candidate.length === 0 ? (
         isCandidatureOpen ? (
           <div className="mx-auto flex flex-col justify-center items-center w-2/3">
             <img className="w-24" src={icone} alt="icone vote" />
@@ -174,7 +174,7 @@ function Candidature() {
                   {...register("roleId", { required: "Role is required" })}
                   className="p-4 rounded-lg"
                 >
-                  <option value="">Select a role</option>
+                  <option value="">Sélectionner un poste</option>
                   {roles.map((role) => (
                     <option key={role.id} value={role.id}>
                       {role.title}
@@ -252,17 +252,20 @@ function Candidature() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => cancelCandidatClick(candidate[0].id)}
-            type="button"
-            className="m-14 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Annuler votre candidature
-          </button>
+          {isCandidatureOpen && (
+            <button
+              onClick={() => cancelCandidatClick(candidate[0].id)}
+              type="button"
+              className="m-14 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Annuler votre candidature
+            </button>
+          )}
         </div>
       )}
     </div>
   );
+  
 }
 
 export default Candidature;

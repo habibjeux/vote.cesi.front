@@ -38,7 +38,7 @@ export default function StudentHomePage() {
     logout();
     localStorage.removeItem("studentId");
     localStorage.removeItem("student");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

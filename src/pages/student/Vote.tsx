@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Poste from "../../components/Poste";
 import CandidatVote from "../../components/CandidatVote";
 import icone from "../../assets/icone_vote.png";
@@ -7,6 +7,7 @@ import visuel from "../../assets/visuel.png";
 import useScreenSize from "../../Hook/useScreenSize";
 import { OutletContext } from "./type/Type";
 import authHeader from "../../services/auth-header";
+import { Button } from "../../components/ui/button";
 interface PosteType {
   id: number;
   title: string;
@@ -17,6 +18,7 @@ interface Planning {
 }
 
 function Vote() {
+  const navigate = useNavigate();
   const { student } = useOutletContext<OutletContext>();
   const [postes, setPoste] = useState<PosteType[]>([]);
   const [selectedPosteId, setSelectedPosteId] = useState<number | null>(null);
@@ -148,9 +150,9 @@ function Vote() {
               Faites entendre votre voix. Ensemble, nous pouvons créer un avenir
               meilleur pour notre communauté universitaire.
             </p>
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-              Votez maintenant
-            </button>
+            <Button>
+              <a href="">Votez maintenant</a>
+            </Button>
           </div>
         </div>
       </div>

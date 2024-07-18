@@ -8,17 +8,18 @@ interface PrivateRouteProps {
 
 export default function PrivateRoute({
   children,
-}: //requiredRole,
-PrivateRouteProps) {
+  requiredRole,
+}: PrivateRouteProps) {
   const user = getCurrentUser();
-
   if (!user || Object.keys(user).length === 0) {
     return <Navigate to="/login" replace />;
   }
+  const arrayToken = user.token.split(".");
+  const tokenPayload = JSON.parse(atob(arrayToken[1]));
 
-  /*if (requiredRole && user.role !== requiredRole) {
+  if (requiredRole && tokenPayload.role !== requiredRole) {
     return <Navigate to="/unauthorized" replace />;
-  }*/
+  }
 
   return children;
 }

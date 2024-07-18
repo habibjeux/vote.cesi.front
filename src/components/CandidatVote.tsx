@@ -29,7 +29,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
       );
       const data: Candidate[] = await response.json();
       setCandidates(data);
-      setIsStudentVotedRole(false);
+      setIsStudentVotedRole(false); // This might need to be set based on actual response or state
     } catch (error) {
       setConnectionError(
         "Erreur de connexion au serveur. Veuillez réessayer plus tard."
@@ -62,6 +62,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
       console.log("Vote successful:", result);
       setModalTitle("Information");
       setModalContent("Votre vote a été pris en compte.");
+      setIsStudentVotedRole(true); // Update state to indicate vote has been cast
     } catch (error) {
       setConnectionError("Vous avez déjà voté pour ce poste.");
       setModalTitle("Erreur");
@@ -101,14 +102,13 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
           <span className="block sm:inline"> {connectionError}</span>
         </div>
       )}
-      {isStudentVotedRole && (
+      {isStudentVotedRole ? (
         <div className="bg-red-200 text-red-700 text-center p-4 mb-4 rounded-lg">
           Vous avez déjà voté pour ce poste.
         </div>
-      )}
-      <div className="flex flex-row flex-wrap justify-center">
-        {!isStudentVotedRole &&
-          candidates.map((unCandidat) => (
+      ) : (
+        <div className="flex flex-row flex-wrap justify-center">
+          {candidates.map((unCandidat) => (
             <div
               key={unCandidat.id}
               className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-80 mx-2"
@@ -149,44 +149,45 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
               </div>
             </div>
           ))}
-        {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="fixed inset-0 bg-black opacity-50"></div>
-            <div className="bg-white p-6 rounded-lg shadow-lg z-10">
-              <h3 className="text-xl font-bold mb-4">{modalTitle}</h3>
-              <p>{modalContent}</p>
-              <div className="mt-4 flex justify-end">
-                {modalTitle === "Confirmation de vote" ? (
-                  <>
-                    <button
-                      className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
-                      onClick={() => setShowModal(false)}
-                    >
-                      Annuler
-                    </button>
-                    <button
-                      className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-                      onClick={() => {
-                        setShowModal(false);
-                        handleVote();
-                      }}
-                    >
-                      Confirmer
-                    </button>
-                  </>
-                ) : (
+        </div>
+      )}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black opacity-50"></div>
+          <div className="bg-white p-6 rounded-lg shadow-lg z-10">
+            <h3 className="text-xl font-bold mb-4">{modalTitle}</h3>
+            <p>{modalContent}</p>
+            <div className="mt-4 flex justify-end">
+              {modalTitle === "Confirmation de vote" ? (
+                <>
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
                     onClick={() => setShowModal(false)}
                   >
-                    Fermer
+                    Annuler
                   </button>
-                )}
-              </div>
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    onClick={() => {
+                      setShowModal(false);
+                      handleVote();
+                    }}
+                  >
+                    Confirmer
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                  onClick={() => setShowModal(false)}
+                >
+                  Fermer
+                </button>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

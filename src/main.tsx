@@ -37,6 +37,7 @@ import InfosCandidatesPage from "./pages/admin/candidates/infos/infos.tsx";
 import AdminLoginPage from "./pages/admin/login.tsx";
 import PlanningPage from "./pages/admin/planning/planning.tsx";
 import PrivateRoute from "./pages/PrivateRoute.tsx";
+import Unauthorized from "./pages/unauthorized.tsx";
 
 const router = createBrowserRouter([
   {
@@ -56,9 +57,13 @@ const router = createBrowserRouter([
     element: <OTPPage />,
   },
   {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
+  {
     path: "/admin",
     element: (
-      <PrivateRoute>
+      <PrivateRoute requiredRole="admin">
         <AdminLayout />
       </PrivateRoute>
     ),
@@ -172,7 +177,7 @@ const router = createBrowserRouter([
   {
     path: "/student",
     element: (
-      <PrivateRoute>
+      <PrivateRoute requiredRole="student">
         <StudentHomePage />
       </PrivateRoute>
     ),

@@ -114,7 +114,7 @@ const CandidatVote: React.FC<CandidatVoteProps> = ({
               className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-80 mx-2"
             >
               <div
-                className="relative overflow-hidden bg-cover bg-no-repeat"
+                className="relative overflow-hidden bg-cover bg-no-repeat w-32"
                 data-twe-ripple-init
                 data-twe-ripple-color="light"
               >
